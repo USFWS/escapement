@@ -5,5 +5,5 @@ The United States Fish and Wildlife Service (FWS) GitHub project code is provide
 An R package that incudes functions for estimating salmon passage and abundance Alukara River, Kodiak Island, Alaska.
 
 # Instructions
-if (!require("devtools")) install.packages("devtools")
-devtools::install_github("mccrea-cobb/akulara")
+`if (!require("devtools")) install.packages("devtools")`  
+`devtools::install_github("mccrea-cobb/akulara")`
