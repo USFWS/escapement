@@ -21,7 +21,7 @@ loadRData <- function(input){
 #' An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
 #'
 #' @param year1 a numeric value indicating the year of data to bootstrap
-#' @param model a character value indicating the top model used to estimate escapement
+#' @param models a list containing formatted salmon count data returned by \code{import_format()}
 #' @param ... pass additional arguments to boot_escapement()
 #'
 #' @import tidyverse
@@ -30,38 +30,52 @@ loadRData <- function(input){
 #'
 #' @examples
 bootit <- function(year1,
-                   model) {
-  # Subset data by a given year
-  dat_year <- dat %>%
-    mutate(year = lubridate::year(date)) %>%
-    subset(year == year1)
+                   ...) {
 
-  # function to bootstrap
-  tot <- function(data, indices, formula, dat) {
-    d <- datud[indices, ] # allows boot to select sample
-    fit <- lm(formula, data = d)
-    pred.vid <- predict(fit, dat)
-    return(sum(pred.vid, na.rm = TRUE))
+  # If the top model is segmented, add new variable (U1.photo) that replaces negative photo counts with zero
+  if(models$aic_table$Modnames[[1]] == "Segmented" || models$aic_table$Modnames[[1]] == "Segmented polynomial"){
+    dat$U1.photo <- ifelse(dat$photo < 0, 0, dat$photo)
   }
 
-  ## Need an if/then statement here to assign "formula" to the top_model (linear, polynomial, etc)
+  # Remove rows containing no video and no photo data
+  datud <- dat[!is.na(dat$photo) | !is.na(dat$video),]
 
-  if(model == "linear"){
+  # Subset data by a given year
+  dat_year <- datud %>%
+    mutate(year = lubridate::year(date)) %>%
+    filter(year == year1)
+
+
+  # function to bootstrap (depends on whether it is a segmented model)
+  if(models$aic_table$Modnames[[1]] == "Linear" || models$aic_table$Modnames[[1]] == "Polynomial"){
+    tot <- function(data, indices, formula, dat) {
+      d <- datud[indices, ] # allows boot to select sample
+      fit <- lm(formula, data = d)
+      pred_vid <- predict(fit, dat)
+      return(sum(pred_vid, na.rm = TRUE))
+    }
+  }
+  if(models$aic_table$Modnames[[1]] == "Segmented" || models$aic_table$Modnames[[1]] == "Segmented polynomial"){
+    tot <- function(data, indices, formula, dat) {
+      d <- datud[indices, ] # allows boot to select sample
+      mod <- lm(formula, data = d)
+      fit <- segmented(mod,
+                       seg.Z = ~photo,
+                       psi = 0,
+                       control = seg.control(it.max=0))
+      pred_vid <- predict(fit, dat)
+      return(sum(pred.vid, na.rm = TRUE))
+    }
+  }
+
+  # define top model
+  if(models$aic_table$Modnames[[1]] == "Linear" || models$aic_table$Modnames[[1]] == "Segmented"){
     top_model_formula = "video ~ photo - 1"
   }
 
-  if(model == "polynomial"){
+  if(models$aic_table$Modnames[[1]] == "Polynomial" || models$aic_table$Modnames[[1]] == "Segmented polynomial"){
     top_model_formula = "video ~ photo + I(photo^2) - 1"
   }
-
-  if(model == "segmented"){
-    top_model_formula = ""
-  }
-
-  if(model == "segmented polynomial"){
-    top_model_formula = ""
-  }
-
 
   # run a bootstrap
   tictoc::tic("Total time")
@@ -73,5 +87,6 @@ bootit <- function(year1,
                         dat = dat_year)
   message("Done.")
   tictoc::toc()
+
   return(results)
 }

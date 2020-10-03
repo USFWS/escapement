@@ -5,9 +5,7 @@
 #' Create exploratory plot of raw salmon photo counts
 #' @description Creates a list of exploratory plots of raw salmon photo counts. This includes a plot of daily photo counts grouped by year, and a plot of hourly photo counts grouped by year.
 #'
-#' @param input a directory path to an Rdata file containing formatted salmon count data returned by \code{import_format()}
-#' @param saveit whether to save the returned list of plots as a RData object
-#' @param output if \code{saveit = TRUE}, the directory path to where to save the returned list of plots
+#' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #'
 #' @return a list of \code{ggplot2} plots
 #'
@@ -18,16 +16,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' explore_plots(input = "./data/derived/dat.Rdata", saveit = FALSE)
+#' explore_plots(dat, saveit = FALSE)
 #' }
-explore_plots <- function(input = "./data/derived/dat.Rdata",
-                          saveit = FALSE,
-                          output){
-
-  dat <- loadRData(input)
-
+explore_plots <- function(dat){
   p <- list()
-  # Plot the photo data by year:
+
+  # Plot the photo data by year
   p[["photo_counts"]] <- dat %>%
     mutate(day = as.Date(date)) %>%
     group_by(day, year) %>%
@@ -39,9 +33,7 @@ explore_plots <- function(input = "./data/derived/dat.Rdata",
     facet_wrap(.~year,
                scales = "free",
                ncol = 1)
-  # save(p.photo.counts, file="./output/plots/plot_photo_counts.Rdata")
-
-  # Hourly counts within a day:
+  # Hourly counts within a day
   p[["hourly_counts"]] <- dat %>%
     mutate(hour = lubridate::hour(date)) %>%
     group_by(hour, year) %>%
@@ -51,10 +43,6 @@ explore_plots <- function(input = "./data/derived/dat.Rdata",
     facet_wrap(.~year,
                scales = "free",
                ncol = 1)
-
-  if(saveit == TRUE){
-    save(p, file = output)
-  }
   return(p)
 }
 
@@ -65,9 +53,7 @@ explore_plots <- function(input = "./data/derived/dat.Rdata",
 
 #' Plots of the top model for estimating salmon escapement from photo and video count data
 #'
-#' @param input a directory path to an Rdata file containing formatted salmon count data returned by \code{import_format()}
-#' @param saveit whether to save the returned list of plots as a RData object
-#' @param output if \code{saveit = TRUE}, the directory path to where to save the returned \code{ggplot2} Rdata object
+#' @param models a list of model output returned from \code{model_escapement}
 #'
 #' @return a \code{ggplot2} Rdata object
 #'
@@ -77,27 +63,13 @@ explore_plots <- function(input = "./data/derived/dat.Rdata",
 #'
 #' @examples
 #' \dontrun{
-#' plot_topmodel(input = "./data/derived/dat.Rdata", saveit = TRUE, output = "./output/plot_top_model")
+#' plot_topmodel(models)
 #' }
-plot_topmodel <- function(input = "./data/derived/dat.Rdata",
-                          saveit = TRUE,
-                          output = "./output/plot_top_model"){
+plot_topmodel <- function(models){
 
-  dat <- loadRdata(input)
-  datud <- dat[!is.na(dat$video), ]  # Remove rows not containing video counts
-
-  # video ~ photo simple linear
-  p_bestmodel <- ggplot(data = datud,
-                        aes(x = photo,
-                            y = video)) +
-    geom_point(pch = 16, size = 1) +
-    geom_smooth(method = "lm", formula = y ~ x - 1,
-                colour = "red",
-                linetype = 2,
-                size = 0.5,
-                se = F,
-                fullrange = T) +
-    scale_y_continuous(breaks = seq(-50, 1000, 200)) +
+  p <- ggplot(models$top_model, aes(x = photo, y = video)) +
+    geom_point() +
+    geom_line(aes(x = photo, y = models$top_model$fitted.values)) +
     geom_hline(yintercept = 0,
                size = 0.5,
                linetype = 3) +
@@ -116,11 +88,7 @@ plot_topmodel <- function(input = "./data/derived/dat.Rdata",
                                       hjust = 0.46),
           axis.text = element_text(size = 14))
 
-  if (saveit == TRUE) {
-    save(p, file = output)
-  }
-
-  return(p_bestmodel)
+  return(p)
 }
 
 
@@ -130,12 +98,15 @@ plot_topmodel <- function(input = "./data/derived/dat.Rdata",
 
 #' Plot bootstrapped annual estimates of salmon escapement
 #'
+#' @param a data frame returned by \code{boot_escapement()}
+#'
 #' @return
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' plot_boot_escapement()
+#' plot_boot_escapement(boot_escape)
 #' }
 plot_boot_escapement <- function() {
 
@@ -176,17 +147,14 @@ plot_boot_escapement <- function() {
                                "2015")) +
     theme(legend.position = c(0.6, 0.8)) +
     guides(alpha = F)
-  #ggsave("./output/plots/plot_boot.jpg", p)
 
-  p[["min_escape"]] <- ggplot(results,
+  p[["min_escape"]] <- ggplot(boot_escape,
                               aes(x = as.factor(year), y = escapement)) +
-    geom_errorbar(data = results,
+    geom_errorbar(data = boot_escape,
                   aes(ymin = lower_ci, ymax = upper_ci),
                   width = 0.1) +
     geom_point() +
     labs(x = "Year", y = "Est. min. escapement")
-
-  #ggsave("./output/plots/plot_escapement.jpg", p)
 }
 
 
