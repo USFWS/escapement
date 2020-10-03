@@ -112,6 +112,9 @@ plot_boot_escapement <- function() {
 
   p <- list()
 
+
+  p <- ggplot() +
+    geom_density(aes())
   # Plot the output:
   p[["boot"]] <- ggplot2::ggplot() +
     geom_density(aes(results_2015$t,
