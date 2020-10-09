@@ -98,7 +98,7 @@ plot_topmodel <- function(models){
 
 #' Plot bootstrapped annual estimates of salmon escapement
 #'
-#' @param a data frame returned by \code{boot_escapement()}
+#' @param boots a data frame returned by \code{boot_escapement()}
 #'
 #' @return
 #'
@@ -106,54 +106,48 @@ plot_topmodel <- function(models){
 #'
 #' @examples
 #' \dontrun{
-#' plot_boot_escapement(boot_escape)
+#' plot_boot_escapement(boots)
 #' }
-plot_boot_escapement <- function() {
+plot_boot_escapement <- function(boots) {
 
+  # make a data frame of the results
+  results <- lapply(boots$raw_boots$boot_est, function(x){
+    foo <- x[["t"]]
+  })
+  results <- data.frame("estimate" = unlist(results))
+  year <- rep(unique(boots$summary$year),
+              each = boots$raw_boots$boot_est$`2015`$R)
+  results$year <- as.factor(year)
+
+  summary <- boots$summary
+
+  # a list to store the plots
   p <- list()
 
+  p[["density_estimates"]] <- ggplot() +
+    geom_density(data = results, aes(x = estimate,
+                                     group = year,
+                                     fill = year),
+                 alpha = 0.5) +
+    geom_vline(data = summary,
+               aes(xintercept = escapement,
+                   group = year),
+               alpha = 0.2) +
+    labs(x = "Bootstrapped values",
+         y = "Density") +
+    theme_bw() +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
+          axis.title.y = element_text(size = 16,
+                                      lineheight = 0.9),
+          axis.title.x = element_text(size = 16,
+                                      lineheight = 0.9,
+                                      hjust = 0.46),
+          axis.text = element_text(size = 14))
 
-  p <- ggplot() +
-    geom_density(aes())
-  # Plot the output:
-  p[["boot"]] <- ggplot2::ggplot() +
-    geom_density(aes(results_2015$t,
-                     fill = "red",
-                     alpha = 0.001)) +
-    geom_vline(xintercept = results_2015$t0,
-               color="red") +
-    geom_density(aes(results_2016$t,
-                     fill = "orange",
-                     alpha = 0.001)) +
-    geom_vline(xintercept = results_2016$t0,
-               color = "orange") +
-    geom_density(aes(results_2017$t,
-                     fill = "blue",
-                     alpha=0.001)) +
-    geom_vline(xintercept = results_2017$t0,
-               color = "blue") +
-    geom_density(aes(results_2018$t,
-                     fill = "yellow",
-                     alpha = 0.001)) +
-    geom_vline(xintercept = results_2018$t0,
-               color = "yellow") +
-    labs(x = "Count",
-         y = "Bootstrapped values") +
-    scale_fill_manual(name = "Year",
-                      values = c("red" = "red",
-                                 "orange" = "orange",
-                                 "blue" = "blue",
-                                 "yellow" = "yellow"),
-                      labels=c("2018",
-                               "2017",
-                               "2016",
-                               "2015")) +
-    theme(legend.position = c(0.6, 0.8)) +
-    guides(alpha = F)
-
-  p[["min_escape"]] <- ggplot(boot_escape,
+  p[["min_escape"]] <- ggplot(boots$summary,
                               aes(x = as.factor(year), y = escapement)) +
-    geom_errorbar(data = boot_escape,
+    geom_errorbar(data = boots$summary,
                   aes(ymin = lower_ci, ymax = upper_ci),
                   width = 0.1) +
     geom_point() +
