@@ -2,29 +2,27 @@
 % Please edit documentation in R/report.R
 \name{run_report}
 \alias{run_report}
-\title{Generate an Rmarkdown report of Alulara salmon escapement}
+\title{Generate an Rmarkdown report of salmon escapement}
 \usage{
 run_report(
-  input_rmd = "akalura_report.rmd",
-  outfile = "akalura_report_2018.pdf",
-  outdir = "./report"
+  outfile = "escapement_report.pdf",
+  outdir = getwd(),
+  parameters = "ask"
 )
 }
 \arguments{
-\item{input_rmd}{}
+\item{outfile}{a name of the returned PDF file}
 
-\item{outfile}{}
-
-\item{outdir}{}
+\item{outdir}{a directory path to the folder to save the PDF}
 }
 \value{
-
+an RMarkdown generated PDF report
 }
 \description{
-Generate an Rmarkdown report of Alulara salmon escapement
+Generate an Rmarkdown report of salmon escapement
 }
 \examples{
 \dontrun{
-run_report(input_rmd = "akalura_report.rmd", outfile = "akalura_report_2018.pdf", outdir = "./report")
+run_report(outfile = "akalura_report.pdf", outdir = "./report")
 }
 }

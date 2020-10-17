@@ -2,24 +2,26 @@
 ## ----
 ## @knitr annual_report
 
-#' Generate an Rmarkdown report of Alulara salmon escapement
+#' Generate an Rmarkdown report of salmon escapement
 #'
-#' @param input_rmd 
-#' @param outfile 
-#' @param outdir 
+#' @param outfile a name of the returned PDF file
+#' @param outdir a directory path to the folder to save the PDF
 #'
-#' @return
+#' @return an RMarkdown generated PDF report
+#'
+#' @import rmarkdown
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' run_report(input_rmd = "akalura_report.rmd", outfile = "akalura_report_2018.pdf", outdir = "./report")
+#' run_report(outfile = "akalura_report.pdf", outdir = "./report")
 #' }
-run_report <- function(input_rmd = "akalura_report.rmd",
-                       outfile = "akalura_report_2018.pdf",
-                       outdir = "./report") {
-  library(rmarkdown)
-  rmarkdown::render(input = input_rmd,
+run_report <- function(outfile = "escapement_report.pdf",
+                       outdir = getwd(),
+                       parameters = "ask") {
+  rmarkdown::render(input = system.file("rmd", "report.Rmd", package = "escapement"),
                     output_file = outfile,
-                    output_dir = outdir)
+                    output_dir = outdir,
+                    params = parameters)
 }

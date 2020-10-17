@@ -159,19 +159,26 @@ plot_boot_escapement <- function(boots) {
 ## ----
 ## @knitr plot_daily
 
-#' Plot daily escapement
+#' Plot estimated minimum daily salmon escapement by year
 #'
-#' @return
+#' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#'
+#' @return a \code{ggplot()} object
+#'
 #' @export
 #'
 #' @examples
-plot_daily <- function() {
-  plots <- list()
-  # Plot estimated daily min. salmon passage
-  plots[["daily_passage"]] <- dat %>%
-    group_by(date_x, year) %>%
+#' \dontrun{
+#' plot_daily(dat)
+#' }
+plot_daily <- function(dat) {
+  p <- dat %>%
+    mutate(day = as.numeric(format(date, "%j")),
+           year = factor(dat$year),
+           escapement = predict(models$top_model, dat)) %>%
+    group_by(day, year) %>%
     summarize(escapement = sum(escapement)) %>%
-    ggplot(aes(date_x, escapement)) +
+    ggplot(aes(day, escapement)) +
     geom_line() +
     labs(x = "Date",
          y = "Salmon passage") +
@@ -179,29 +186,33 @@ plot_daily <- function() {
                scales = "fixed",
                ncol = 1) +
     scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b"))
-  # ggsave(p.daily.passage, file = "./output/plots/daily_passage.jpg")
+  return(p)
 }
 
 
 ## ----
 ## @knitr plot_hrly
 
-#' Plot hourly escapement by day
+#' Plot estimate hourly salmon escapement by day
 #'
-#' @param
+#' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #'
-#' @return
+#' @return a \code{ggplot()} object
+#'
+#' @import tidyverse
+#' @import lubridate
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' plot_hrly()
+#' plot_hrly(dat)
 #' }
-plot_hrly <- function(){
-  # Plots hourly passage within a day
-  plots[["hourly_passage"]] <- dat %>%
-    mutate(hour = lubridate::hour(date)) %>%
+plot_hrly <- function(dat){
+  p <- dat %>%
+    mutate(hour = as.numeric(lubridate::hour(date)),
+           year = factor(dat$year),
+           escapement = predict(models$top_model, dat)) %>%
     group_by(hour, year) %>%
     summarize(escapement = sum(escapement, na.rm = T)) %>%
     ggplot(aes(hour, escapement)) +
@@ -211,4 +222,5 @@ plot_hrly <- function(){
     facet_wrap(. ~ year,
                scales = "free_y",
                ncol = 1)
+  return(p)
 }

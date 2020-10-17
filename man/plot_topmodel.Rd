@@ -4,18 +4,10 @@
 \alias{plot_topmodel}
 \title{Plots of the top model for estimating salmon escapement from photo and video count data}
 \usage{
-plot_topmodel(
-  input = "./data/derived/dat.Rdata",
-  saveit = TRUE,
-  output = "./output/plot_top_model"
-)
+plot_topmodel(models)
 }
 \arguments{
-\item{input}{a directory path to an Rdata file containing formatted salmon count data returned by \code{import_format()}}
-
-\item{saveit}{whether to save the returned list of plots as a RData object}
-
-\item{output}{if \code{saveit = TRUE}, the directory path to where to save the returned \code{ggplot2} Rdata object}
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
 a \code{ggplot2} Rdata object
@@ -25,6 +17,6 @@ Plots of the top model for estimating salmon escapement from photo and video cou
 }
 \examples{
 \dontrun{
-plot_topmodel(input = "./data/derived/dat.Rdata", saveit = TRUE, output = "./output/plot_top_model")
+plot_topmodel(models)
 }
 }

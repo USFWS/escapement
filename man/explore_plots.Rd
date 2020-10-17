@@ -4,14 +4,10 @@
 \alias{explore_plots}
 \title{Create exploratory plot of raw salmon photo counts}
 \usage{
-explore_plots(input = "./data/derived/dat.Rdata", saveit = FALSE, output)
+explore_plots(dat)
 }
 \arguments{
-\item{input}{a directory path to an Rdata file containing formatted salmon count data returned by \code{import_format()}}
-
-\item{saveit}{whether to save the returned list of plots as a RData object}
-
-\item{output}{if \code{saveit = TRUE}, the directory path to where to save the returned list of plots}
+\item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
 }
 \value{
 a list of \code{ggplot2} plots
@@ -21,6 +17,6 @@ Creates a list of exploratory plots of raw salmon photo counts. This includes a 
 }
 \examples{
 \dontrun{
-explore_plots(input = "./data/derived/dat.Rdata", saveit = FALSE)
+explore_plots(dat, saveit = FALSE)
 }
 }

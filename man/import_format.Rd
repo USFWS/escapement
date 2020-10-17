@@ -4,11 +4,7 @@
 \alias{import_format}
 \title{Import and format photo and video salmon count data}
 \usage{
-import_format(
-  input = "./data/raw/hourraw.csv",
-  saveit = TRUE,
-  output = "./data/derived/dat.Rdata"
-)
+import_format(input, saveit = FALSE, output)
 }
 \arguments{
 \item{input}{the directory path to a CSV containing dates, and hourly video and photo counts of salmon.}

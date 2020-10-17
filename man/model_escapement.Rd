@@ -4,14 +4,10 @@
 \alias{model_escapement}
 \title{Model salmon escapement using photo and video counts}
 \usage{
-model_escapement(
-  input = "./data/derived/dat.Rdata",
-  saveit = FALSE,
-  output = "./output/models/models.Rdata"
-)
+model_escapement(dat, saveit = FALSE, output)
 }
 \arguments{
-\item{input}{a directory path to an Rdata file containing formatted salmon count data returned by \code{import_format()}}
+\item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
 
 \item{saveit}{whether to save the results as a RData object}
 

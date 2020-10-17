@@ -68,7 +68,7 @@ bootit <- function(year1,
     }
   }
 
-  # define top model
+  # define top model separately for linear and segmented models
   if(models$aic_table$Modnames[[1]] == "Linear" || models$aic_table$Modnames[[1]] == "Segmented"){
     top_model_formula = "video ~ photo - 1"
   }
