@@ -152,6 +152,8 @@ plot_boot_escapement <- function(boots) {
                   width = 0.1) +
     geom_point() +
     labs(x = "Year", y = "Est. min. escapement")
+
+  return(p)
 }
 
 
@@ -196,6 +198,7 @@ plot_daily <- function(dat) {
 #' Plot estimate hourly salmon escapement by day
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#' @param models a list of model output returned from \code{model_escapement}
 #'
 #' @return a \code{ggplot()} object
 #'
@@ -206,15 +209,15 @@ plot_daily <- function(dat) {
 #'
 #' @examples
 #' \dontrun{
-#' plot_hrly(dat)
+#' plot_hrly(dat, models)
 #' }
-plot_hrly <- function(dat){
+plot_hrly <- function(dat, models){
   p <- dat %>%
     mutate(hour = as.numeric(lubridate::hour(date)),
            year = factor(dat$year),
            escapement = predict(models$top_model, dat)) %>%
     group_by(hour, year) %>%
-    summarize(escapement = sum(escapement, na.rm = T)) %>%
+    dplyr::summarize(escapement = sum(escapement, na.rm = T)) %>%
     ggplot(aes(hour, escapement)) +
     geom_line() +
     labs(x="Hour of day",

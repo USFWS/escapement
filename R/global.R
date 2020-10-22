@@ -21,16 +21,21 @@ loadRData <- function(input){
 #' An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
 #'
 #' @param year1 a numeric value indicating the year of data to bootstrap
-#' @param models a list containing formatted salmon count data returned by \code{import_format()}
-#' @param ... pass additional arguments to boot_escapement()
+#' @params dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#' @params models a list of model output returned from \code{model_escapement}
 #'
 #' @import tidyverse
 #' @import boot
-#' @return
+#'
+#' @export
+#'
+#' @return bootstrapped estimates
 #'
 #' @examples
-bootit <- function(year1,
-                   ...) {
+#' dontrun{
+#' bootit(2015)
+#' }
+bootit <- function(year1, dat, models) {
 
   # If the top model is segmented, add new variable (U1.photo) that replaces negative photo counts with zero
   if(models$aic_table$Modnames[[1]] == "Segmented" || models$aic_table$Modnames[[1]] == "Segmented polynomial"){
@@ -43,7 +48,7 @@ bootit <- function(year1,
   # Subset data by a given year
   dat_year <- datud %>%
     mutate(year = lubridate::year(date)) %>%
-    filter(year == year1)
+    dplyr::filter(year == year1)
 
 
   # function to bootstrap (depends on whether it is a segmented model)

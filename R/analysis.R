@@ -240,11 +240,10 @@ escapement <- function(passage,
 ## ----
 ## @knitr boot_escapement
 
-#' Calculate bootstrapped 95% confidence intervals around salmon escapement estimates
+#' Calculate bootstrapped 95 percent confidence intervals around salmon escapement estimates
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
-#' @param ... pass additional arguments to/from \code{bootit()} and \code{boot}
 #' @return
 #'
 #' @export
@@ -255,21 +254,25 @@ escapement <- function(passage,
 #' @import tictoc
 #'
 #' @examples
+#' dontrun{
+#' boot_escapement(dat, models)
+#' }
 boot_escapement <- function(dat,
-                            models,
-                            ...) {
+                            models) {
 
   year <- unique(lubridate::year(dat$date))
 
   boot_est <- lapply(year, function(x) {  # estimate annual mean escapement
-    bootit(year1 = x)
-    })
+    bootit(year1 = x,
+           dat = dat,
+           models = models)
+  })
   names(boot_est) <- year
 
   cis <- lapply(boot_est, function(x){  # estimate CIs around annual mean escapements
-    boot::boot.ci(x,
-                  type = "perc",
-                  conf = 0.95) # 95% CI values, using percentile method)
+    boot.ci(x,
+            type = "perc",
+            conf = 0.95) # 95% CI values, using percentile method)
   })
   names(cis) <- year
 

@@ -1,15 +1,18 @@
 ---
-title: "Salmon Escapement Estimate for Akalara River, Kodiak Refuge"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::pdf_document
 params: 
-  name:
-    label: "Your name:"
+  title:
+    label: "Report title:"
+    value: "Akalura Salmon Escapement Report"
+    input: text
+  author:
+    label: "Author:"
     value: Kevin Van Hatten
     input: text
   email:
-    label: "Email address:"
+    label: "Email:"
     value: kevin_vanhatten@fws.gov
     input: text
   phone:
@@ -23,7 +26,8 @@ params:
 ---
 
 ---
-author: `r params$name`
+title: `r params$title`
+author: `r params$author`
 ---
 
 ```{r setup, include=FALSE, cache=FALSE}
@@ -38,24 +42,26 @@ knitr::opts_chunk$set(message = FALSE)
 <!-- param$email -->
 <!-- param$phone -->
 
-```{r, echo=FALSE, }
-source("../../R/global.R")
-source("../../R/import_format.R")
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 dat <- import_format(params$input_data)
-
-source("../../R/analysis.R")
 models <- model_escapement(dat)
+boots <- boot_escapement(dat, models)
 
-source("../../R/plot.R")
-p <- plot_hrly(dat, models)
-p
 
+#plot_hrly(dat, models)
+
+
+```
+
+
+```{r}
+#boots <- boot_escapement(dat=dat, models=models)
 ```
 
 ### Project Description
 
 ### Results
-I imported and formatted the raw dataset. I subsetted the raw dataset to only include observations when video data were available (data/derived/datud.Rdata).I evaluated linear, polynomial linear, segmented, and segmented polynomial models to assess the relationship between video and photo counts (response=video). Using Delta AICc to evaluate the competing model set, I found the most parsimonous model to be the linear model. Model diagnostics indicated normal residuals and constant error variance (homoskedasticity). 
+I imported and formatted the raw dataset. I subsetted the raw dataset to only include observations when video data were available. I evaluated linear, polynomial linear, segmented, and segmented polynomial models to assess the relationship between video and photo counts (response = video). Using Delta AICc to evaluate the competing model set, I found the most parsimonious model to be the `r tolower(models$aic_table$Modnames[[1]])` model. Model diagnostics indicated normal residuals and constant error variance (homoskedasticity). 
 ```{r linear_model, echo=F, warning=F, fig.align="left", message=F}
 # load("../output/models/mod_best.Rdata")
 # 
@@ -76,20 +82,16 @@ I imported and formatted the raw dataset. I subsetted the raw dataset to only in
 Using the top model, I calculated the estimated daily salmon passage, total annual escapement, and daily salmon passage. I calculated bootstrapped 95% CIs to estimate uncertainty around the annual escapement estimate. 
   
 ```{r plot_boot, echo=F, fig.cap="Mean minimum escapement estimates for Akalura River, Kodiak Island, Alaska. Error bars represent 95% CIs"}
-# load("../output/tables/results.Rdata")
-# 
-# ggplot(results, aes(x = as.factor(year), y = escapement)) +
-#   geom_errorbar(data=results, aes(ymin = lower_ci, ymax = upper_ci),
-#                 width = .1) +
-#   geom_point() +
-#   labs(x="Year", y = "Est. min. escapement")
+
+p.boots <- plot_boot_escapement(boots)
+p.boots[["min_escape"]]
 ```
 
-\newpage  
 
-<!-- ## Code -->
-<!-- ```{r, code=readLines("../code/akalura.R"), eval=FALSE} -->
-<!-- ``` -->
+```{r boot summart tbl, echo=FALSE}
+kable::kable(boots$summary)
+```
+
 
 \newpage
 

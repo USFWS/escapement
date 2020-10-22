@@ -16,4 +16,5 @@ Import:
   tidyverse,
   ggpubr,
   segmented,
-  tictoc
+  tictoc,
+  kable

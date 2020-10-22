@@ -4,10 +4,12 @@
 \alias{plot_hrly}
 \title{Plot estimate hourly salmon escapement by day}
 \usage{
-plot_hrly(dat)
+plot_hrly(dat, models)
 }
 \arguments{
 \item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
+
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
 a \code{ggplot()} object
@@ -17,6 +19,6 @@ Plot estimate hourly salmon escapement by day
 }
 \examples{
 \dontrun{
-plot_hrly(dat)
+plot_hrly(dat, models)
 }
 }

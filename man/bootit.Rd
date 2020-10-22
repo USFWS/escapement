@@ -4,18 +4,19 @@
 \alias{bootit}
 \title{An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates}
 \usage{
-bootit(year1, ...)
+bootit(year1, dat, models)
 }
 \arguments{
 \item{year1}{a numeric value indicating the year of data to bootstrap}
-
-\item{...}{pass additional arguments to boot_escapement()}
-
-\item{models}{a list containing formatted salmon count data returned by \code{import_format()}}
 }
 \value{
 
 }
 \description{
 An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
+}
+\examples{
+dontrun{
+bootit(2015)
+}
 }

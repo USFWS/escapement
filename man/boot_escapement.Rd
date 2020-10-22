@@ -2,20 +2,23 @@
 % Please edit documentation in R/analysis.R
 \name{boot_escapement}
 \alias{boot_escapement}
-\title{Calculate bootstrapped 95% confidence intervals around salmon escapement estimates}
+\title{Calculate bootstrapped 95 percent confidence intervals around salmon escapement estimates}
 \usage{
-boot_escapement(dat, models, ...)
+boot_escapement(dat, models)
 }
 \arguments{
 \item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
 
 \item{models}{a list of model output returned from \code{model_escapement}}
-
-\item{...}{pass additional arguments to/from \code{bootit()} and \code{boot}}
 }
 \value{
 
 }
 \description{
-Calculate bootstrapped 95% confidence intervals around salmon escapement estimates
+Calculate bootstrapped 95 percent confidence intervals around salmon escapement estimates
+}
+\examples{
+dontrun{
+boot_escapement(dat, models)
+}
 }
