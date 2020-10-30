@@ -5,18 +5,26 @@
 \title{Generate an Rmarkdown report of salmon escapement}
 \usage{
 run_report(
-  outfile = "escapement_report.pdf",
+  outformat = bookdown::pdf_document2(),
+  outfile = "report",
   outdir = getwd(),
-  parameters = "ask"
+  parameters = "ask",
+  ...
 )
 }
 \arguments{
-\item{outfile}{a name of the returned PDF file}
+\item{outformat}{the file format of the report. Default is \code{bookdown::pdf_document2()}.}
+
+\item{outfile}{a name of the returned file}
 
 \item{outdir}{a directory path to the folder to save the PDF}
+
+\item{parameters}{a list of custom parameters or \code{all} to launch a shiny app to select custom parameters}
+
+\item{...}{pass additional arguments to \code{rmarkdown::render()}}
 }
 \value{
-an RMarkdown generated PDF report
+an RMarkdown-generated report
 }
 \description{
 Generate an Rmarkdown report of salmon escapement

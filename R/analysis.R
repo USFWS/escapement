@@ -291,6 +291,7 @@ boot_escapement <- function(dat,
                         escapement,
                         lower_ci,
                         upper_ci)
+  rownames(summary) <- NULL
 
   raw_boots <- list("boot_est" = boot_est,
                     "cis" = cis)

@@ -4,10 +4,12 @@
 \alias{plot_daily}
 \title{Plot estimated minimum daily salmon escapement by year}
 \usage{
-plot_daily(dat)
+plot_daily(dat, models)
 }
 \arguments{
 \item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
+
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
 a \code{ggplot()} object
@@ -17,6 +19,6 @@ Plot estimated minimum daily salmon escapement by year
 }
 \examples{
 \dontrun{
-plot_daily(dat)
+plot_daily(dat, models)
 }
 }

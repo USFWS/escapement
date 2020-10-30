@@ -8,9 +8,13 @@ bootit(year1, dat, models)
 }
 \arguments{
 \item{year1}{a numeric value indicating the year of data to bootstrap}
+
+\item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
+
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
-
+bootstrapped estimates
 }
 \description{
 An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates

@@ -4,12 +4,16 @@
 
 #' Generate an Rmarkdown report of salmon escapement
 #'
-#' @param outfile a name of the returned PDF file
+#' @param outformat the file format of the report. Default is \code{bookdown::pdf_document2()}.
+#' @param outfile a name of the returned file
 #' @param outdir a directory path to the folder to save the PDF
+#' @param parameters a list of custom parameters or \code{all} to launch a shiny app to select custom parameters
+#' @param ... pass additional arguments to \code{rmarkdown::render()}
 #'
-#' @return an RMarkdown generated PDF report
+#' @return an RMarkdown-generated report
 #'
-#' @import rmarkdown
+#' @import bookdown
+#' @import knitr
 #'
 #' @export
 #'
@@ -17,11 +21,16 @@
 #' \dontrun{
 #' run_report(outfile = "akalura_report.pdf", outdir = "./report")
 #' }
-run_report <- function(outfile = "escapement_report.pdf",
+run_report <- function(outformat = bookdown::pdf_document2(),
+                       outfile = "report",
                        outdir = getwd(),
-                       parameters = "ask") {
+                       parameters = "ask",
+                       ...) {
   rmarkdown::render(input = system.file("rmd", "report.Rmd", package = "escapement"),
+                    output_format = outformat,
                     output_file = outfile,
                     output_dir = outdir,
-                    params = parameters)
+                    params = parameters,
+                    ...)
+  #browseURL(file.path(paste0(outdir, "/", outfile, filetype)))  # open the report
 }

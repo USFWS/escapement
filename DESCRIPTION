@@ -17,4 +17,5 @@ Import:
   ggpubr,
   segmented,
   tictoc,
-  kable
+  knitr,
+  shiny

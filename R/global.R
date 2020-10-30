@@ -21,8 +21,8 @@ loadRData <- function(input){
 #' An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
 #'
 #' @param year1 a numeric value indicating the year of data to bootstrap
-#' @params dat a data frame containing formatted salmon count data returned by \code{import_format()}
-#' @params models a list of model output returned from \code{model_escapement}
+#' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#' @param models a list of model output returned from \code{model_escapement}
 #'
 #' @import tidyverse
 #' @import boot
@@ -87,7 +87,7 @@ bootit <- function(year1, dat, models) {
   message(paste("Bootstrapping", unique(dat_year$year), "..."))
   results <- boot::boot(data = datud,
                         statistic = tot,
-                        R = 10000,
+                        R = 1000,
                         formula = top_model_formula,
                         dat = dat_year)
   message("Done.")

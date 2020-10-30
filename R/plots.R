@@ -164,22 +164,26 @@ plot_boot_escapement <- function(boots) {
 #' Plot estimated minimum daily salmon escapement by year
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#' @param models a list of model output returned from \code{model_escapement}
 #'
 #' @return a \code{ggplot()} object
+#'
+#' @import tidyverse
+#' @import dplyr
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' plot_daily(dat)
+#' plot_daily(dat, models)
 #' }
-plot_daily <- function(dat) {
+plot_daily <- function(dat, models) {
   p <- dat %>%
     mutate(day = as.numeric(format(date, "%j")),
-           year = factor(dat$year),
+           year = factor(year),
            escapement = predict(models$top_model, dat)) %>%
     group_by(day, year) %>%
-    summarize(escapement = sum(escapement)) %>%
+    dplyr::summarize(escapement = sum(escapement)) %>%
     ggplot(aes(day, escapement)) +
     geom_line() +
     labs(x = "Date",
