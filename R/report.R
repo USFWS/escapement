@@ -14,6 +14,7 @@
 #'
 #' @import bookdown
 #' @import knitr
+#' @import broom
 #'
 #' @export
 #'

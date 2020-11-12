@@ -48,11 +48,11 @@ params:
 knitr::opts_chunk$set(echo = TRUE, 
                       warning = FALSE,
                       message = FALSE,
-                      fig.pos = "!h")
+                      fig.pos = "!ht")
 
-knitr::knit_hooks$set(inline = function(x) {  # Add comma separator to 4-digit numeric values
-  prettyNum(x, big.mark=",")
-})
+# knitr::knit_hooks$set(inline = function(x) {  # Add comma separator to 4-digit numeric values
+#   prettyNum(x, big.mark=",")
+# })
 ```
 
 ```{r import-data, echo=FALSE, include=FALSE}
@@ -152,7 +152,7 @@ The most parsimonious model was the `r tolower(models$aic_table$Modnames[[1]])` 
 
 ```{r topmodel-table, echo=F, warning=F, fig.align="left", message=F}
 models$top_model %>%
-  tidy() %>%
+  broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value)) %>%
   knitr::kable(caption = "Summary of the most parsimonious model using to minimum annual salmon escapement, Akalura River, Kodiak Island, Alaska.",
                col.names = c("Predictor", "B", "SE", "t", "p"),
@@ -169,13 +169,13 @@ p.boots[["min_escape"]]
 ```
 
 ```{r aicc-table, echo=FALSE, fig.align="left", message=F}
-knitr::kable(models$aic_table,
-             digits = 0,
+knitr::kable(models$aic_table[c(1:4, 6, 8)],
+             digits = 2,
              format = "latex",
              booktabs = TRUE,
              caption = "AICc table of the candidate model set for estimating minimum annual salmon escapement, Akalura River, Kodiak, Alaska.",
-             col.names = c("Models", "K", "AICc", "Delta AICc", "AICc weight", "Cumulative weight", "Log likelihood"),
-             format.args = list(big.mark = ","))
+             col.names = c("Models", "K", "AICc", "Delta AICc", "AICc weight", "Cumulative weight")
+             )
 ```
 
 
@@ -186,9 +186,8 @@ knitr::kable(boots$summary,
              booktabs = TRUE,
              caption = "Annual escapement estimates based on the top model, Akalura River, Kodiak, Alaska.",
              col.names = c("Year", "Escapement", "Lower CI", "Upper CI"),
-             row.names = NA,
-             format.args = list(big.mark = ",")
-)
+             row.names = NA
+             )
 ```
 
 ```{r hourly-plot, echo=FALSE, fig.cap="Average salmon escapement by hour within a day, grouped by year, Akalura River, Kodiak, Alaska."}
