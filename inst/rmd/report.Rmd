@@ -174,7 +174,9 @@ knitr::kable(models$aic_table[c(1:4, 6, 8)],
              format = "latex",
              booktabs = TRUE,
              caption = "AICc table of the candidate model set for estimating minimum annual salmon escapement, Akalura River, Kodiak, Alaska.",
-             col.names = c("Models", "K", "AICc", "Delta AICc", "AICc weight", "Cumulative weight")
+             col.names = c("Models", "K", "AICc", "Delta AICc", "AICc weight", "Cumulative weight"),
+                          row.names = NA
+             row.names = NA
              )
 ```
 
