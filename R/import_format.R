@@ -9,7 +9,7 @@
 #'
 #' @return a data frame of salmon counts formatted for \code{escapement} functions
 #'
-#' @import lubridate
+#' @importFrom lubridate year
 #'
 #' @export
 #'

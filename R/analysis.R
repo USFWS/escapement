@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @import segmented
-#' @import AICcmodavg
+#' @importFrom AICcmodavg aictab
 #'
 #' @examples
 #' \dontrun{
@@ -75,7 +75,7 @@ model_escapement <- function(dat,
 #' @return a list of objects including residual plots, a score test for non-constant error variance (a code{chisqTest} object) returned by \code{car::ncvTest()}, a spread level plot (object of class \code{spreadLevelPlot}) returned by \code{car::spreadLevelPlot()}, influence measures returned by \code{influence.measures()}, and Cook's distances returned by \code{cooks.distance()}
 #'
 #' @import ggplot2
-#' @import car
+#' @importFrom car ncvTest spreadLevelPlot
 #'
 #' @examples
 #' \dontrun{
@@ -124,7 +124,7 @@ model_diagnostics <- function(models){
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @return a data frame containing formatted salmon count data returned by \code{import_format() and a column containing estimates of hourly salmon passage that are predicted from the top model
+#' @return a data frame containing formatted salmon count data returned by \code{import_format()} and a column containing estimates of hourly salmon passage that are predicted from the top model
 #'
 #' @export
 #'
@@ -186,7 +186,7 @@ daily_passage <- function(passage,
 #'
 #' @import magrittr
 #' @import dplyr
-#' @import lubridate
+#' @importFrom lubridate year
 #'
 #' @export
 #'
@@ -222,7 +222,8 @@ escapement <- function(passage,
 #'
 #' @export
 #'
-#' @import lubridate
+#' @importFrom lubridate year
+#' @importFrom boot boot.ci
 #'
 #' @examples
 #' \dontrun{

@@ -18,9 +18,9 @@ Imports:
   car,
   dplyr,
   ggplot2,
-  kableExtra,
   lubridate,
   magrittr,
+  rmarkdown,
   scales,
   segmented,
   tictoc

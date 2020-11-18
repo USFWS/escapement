@@ -12,7 +12,7 @@ hourly_passage(dat, models)
 \item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
-
+a data frame containing formatted salmon count data returned by \code{import_format()} and a column containing estimates of hourly salmon passage that are predicted from the top model
 }
 \description{
 Estimate hourly passage of salmon based on the top model from \code{model_escapement()}

@@ -17,7 +17,6 @@
 #' @import scales
 #' @import dplyr
 #' @import magrittr
-#' @import kableExtra
 #'
 #' @export
 #'

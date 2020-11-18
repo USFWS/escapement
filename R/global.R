@@ -26,9 +26,9 @@ loadRData <- function(input){
 #'
 #' @import dplyr
 #' @import magrittr
-#' @import boot
+#' @importFrom boot boot
 #' @import tictoc
-#' @import segmented
+#' @importFrom segmented segmented
 #'
 #' @return bootstrapped estimates
 #'

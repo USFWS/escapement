@@ -17,6 +17,6 @@ An internal function to load and rename an Rdata object
 }
 \examples{
 \dontrun{
-loadRdata("/path/to/my/file.Rdata")
+loadRdata("myfile.Rdata")
 }
 }

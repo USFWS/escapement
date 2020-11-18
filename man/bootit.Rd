@@ -2,7 +2,7 @@
 % Please edit documentation in R/global.R
 \name{bootit}
 \alias{bootit}
-\title{An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates}
+\title{An internal function to generate bootstrapped confidence intervals around salmon escapement estimates}
 \usage{
 bootit(year1, dat, models)
 }
@@ -17,7 +17,7 @@ bootit(year1, dat, models)
 bootstrapped estimates
 }
 \description{
-An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
+An internal function to generate bootstrapped confidence intervals around salmon escapement estimates
 }
 \examples{
 \dontrun{

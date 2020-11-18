@@ -31,6 +31,6 @@ Generate an Rmarkdown report of salmon escapement
 }
 \examples{
 \dontrun{
-run_report(outfile = "akalura_report.pdf", outdir = "./report")
+run_report()
 }
 }
