@@ -13,6 +13,7 @@
 #' @return an RMarkdown-generated report
 #'
 #' @import bookdown
+#' @import rmarkdown
 #' @import knitr
 #' @import broom
 #'

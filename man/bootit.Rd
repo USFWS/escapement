@@ -20,7 +20,7 @@ bootstrapped estimates
 An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
 }
 \examples{
-dontrun{
+\dontrun{
 bootit(2015)
 }
 }

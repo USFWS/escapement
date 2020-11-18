@@ -10,7 +10,7 @@ plot_boot_escapement(boots)
 \item{boots}{a data frame returned by \code{boot_escapement()}}
 }
 \value{
-
+a \code{ggplot2} Rdata object
 }
 \description{
 Plot bootstrapped annual estimates of salmon escapement

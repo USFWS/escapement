@@ -48,7 +48,8 @@ params:
 knitr::opts_chunk$set(echo = TRUE, 
                       warning = FALSE,
                       message = FALSE,
-                      fig.pos = "!ht")
+                      fig.pos = "!ht",
+                      fig.align = "left")
 
 # knitr::knit_hooks$set(inline = function(x) {  # Add comma separator to 4-digit numeric values
 #   prettyNum(x, big.mark=",")
@@ -150,7 +151,7 @@ Using the best model for each stream, we predicted hourly salmon passage over th
 # Results
 The most parsimonious model was the `r tolower(models$aic_table$Modnames[[1]])` model (Table \@ref(tab:topmodel-table), Figure \@ref(fig:topmodel-plot)). Model diagnostics indicated normal residuals and constant error variance (homoskedasticity). 
 
-```{r topmodel-table, echo=F, warning=F, fig.align="left", message=F}
+```{r topmodel-table, echo=F, warning=F, message=F}
 models$top_model %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value)) %>%
@@ -168,20 +169,19 @@ p.boots <- plot_boot_escapement(boots)
 p.boots[["min_escape"]]
 ```
 
-```{r aicc-table, echo=FALSE, fig.align="left", message=F}
+```{r aicc-table, echo=FALSE, message=F}
 knitr::kable(models$aic_table[c(1:4, 6, 8)],
              digits = 2,
              format = "latex",
              booktabs = TRUE,
              caption = "AICc table of the candidate model set for estimating minimum annual salmon escapement, Akalura River, Kodiak, Alaska.",
              col.names = c("Models", "K", "AICc", "Delta AICc", "AICc weight", "Cumulative weight"),
-                          row.names = NA
-             row.names = NA
+             row.names = FALSE
              )
 ```
 
 
-```{r summary-table, echo=FALSE, fig.align="left", message=F}
+```{r summary-table, echo=FALSE, message=F}
 knitr::kable(boots$summary,
              digits = 0,
              format = "latex",

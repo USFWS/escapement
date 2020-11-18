@@ -12,13 +12,13 @@ boot_escapement(dat, models)
 \item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
-
+a list containing a summary of the bootstrapped estimates (\code{summary}) and the raw bootstrapped results (\code{raw_boots})
 }
 \description{
 Calculate bootstrapped 95 percent confidence intervals around salmon escapement estimates
 }
 \examples{
-dontrun{
+\dontrun{
 boot_escapement(dat, models)
 }
 }

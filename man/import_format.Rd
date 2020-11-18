@@ -14,13 +14,13 @@ import_format(input, saveit = FALSE, output)
 \item{output}{if \code{saveit = TRUE}, the directory path to where to save the returned data frame}
 }
 \value{
-
+a data frame of salmon counts formatted for \code{escapement} functions
 }
 \description{
 Import and format photo and video salmon count data
 }
 \examples{
-#' \dontrun{
-import_format(input = "./data/raw/hourraw.csv", saveit = TRUE, output = "./data/derived/dat.Rdata")
+\dontrun{
+import_format("salmon_counts.csv")
 }
 }

@@ -32,7 +32,7 @@ loadRData <- function(input){
 #' @return bootstrapped estimates
 #'
 #' @examples
-#' dontrun{
+#' \dontrun{
 #' bootit(2015)
 #' }
 bootit <- function(year1, dat, models) {

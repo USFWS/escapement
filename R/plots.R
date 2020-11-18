@@ -49,7 +49,7 @@ explore_plots <- function(dat){
 
 
 ## ----
-## @knitr plots
+## @knitr plot_top_model
 
 #' Plots of the top model for estimating salmon escapement from photo and video count data
 #'
@@ -100,7 +100,7 @@ plot_topmodel <- function(models){
 #'
 #' @param boots a data frame returned by \code{boot_escapement()}
 #'
-#' @return
+#' @return a \code{ggplot2} Rdata object
 #'
 #' @export
 #'

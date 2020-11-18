@@ -4,16 +4,12 @@
 \alias{hourly_passage}
 \title{Estimate hourly passage of salmon based on the top model from \code{model_escapement()}}
 \usage{
-hourly_passage(dat, models, saveit = FALSE, output)
+hourly_passage(dat, models)
 }
 \arguments{
 \item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
 
-\item{models}{a list of model output returned from \code{model_escapement}.}
-
-\item{saveit}{whether to save the results as a RData object}
-
-\item{output}{a numeric vector containing estimated salmon escapement (hourly)}
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
 
@@ -23,6 +19,6 @@ Estimate hourly passage of salmon based on the top model from \code{model_escape
 }
 \examples{
 \dontrun{
-hourly_passage()
+hourly_passage(dat, models)
 }
 }

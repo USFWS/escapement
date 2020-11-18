@@ -7,13 +7,15 @@
 #' @param saveit whether to save the returned data frame as a RData object
 #' @param output if \code{saveit = TRUE}, the directory path to where to save the returned data frame
 #'
-#' @return
+#' @return a data frame of salmon counts formatted for \code{escapement} functions
+#'
+#' @import tidyverse
 #'
 #' @export
 #'
 #' @examples
-#' #' \dontrun{
-#' import_format(input = "./data/raw/salmon_counts.csv", saveit = TRUE, output = "./data/derived/dat.Rdata")
+#' \dontrun{
+#' import_format("salmon_counts.csv")
 #' }
 import_format <- function(input,
                           saveit = FALSE,

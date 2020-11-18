@@ -92,30 +92,6 @@ model_diagnostics <- function(models){
       geom_histogram() +
       geom_density() +
       labs(x = "Studentized Residuals")
-
-    # invisible(hist(z,
-    #                breaks = nbreaks,
-    #                freq = FALSE,
-    #                xlab = "Studentized Residual",
-    #                main = "Distribution of Errors"))
-    # rug(jitter(z),
-    #     col = "brown")
-    # curve(dnorm(x,
-    #             mean = mean(z),
-    #             sd = sd(z)),
-    #       add = TRUE,
-    #       col = "blue",
-    #       lwd = 2)
-    # lines(density(z)$x,
-    #       density(z)$y,
-    #       col = "red",
-    #       lwd = 2,
-    #       lty = 2)
-    # legend("topright",
-    #        legend = c( "Normal Curve", "Kernel Density Curve"),
-    #        lty = 1:2,
-    #        col = c("blue","red"),
-    #        cex = .7)
     return(p)
   }
 
@@ -145,26 +121,19 @@ model_diagnostics <- function(models){
 #' Estimate hourly passage of salmon based on the top model from \code{model_escapement()}
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
-#' @param models a list of model output returned from \code{model_escapement}.
-#' @param saveit whether to save the results as a RData object
-#' @param output a numeric vector containing estimated salmon escapement (hourly)
+#' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @return
+#' @return a data frame containing formatted salmon count data returned by \code{import_format() and a column containing estimates of hourly salmon passage that are predicted from the top model
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' hourly_passage()
+#' hourly_passage(dat, models)
 #' }
 hourly_passage <- function(dat,
-                           models,
-                           saveit = FALSE,
-                           output) {
-
-  # Add new variable (U1.photo) that replaces negative photo counts with zero (for predicting segmented models)
-  dat$U1.photo <- ifelse(dat$photo < 0, 0, dat$photo)
-
+                           models) {
+  dat$U1.photo <- ifelse(dat$photo < 0, 0, dat$photo)  # adds a new variable (U1.photo) that replaces negative photo counts with zero (for predicting segmented models)
   escapement <- predict(models$top_model, dat)   # calculates the fitted number of upward passing fish
 }
 
@@ -244,7 +213,8 @@ escapement <- function(passage,
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
-#' @return
+#'
+#' @return a list containing a summary of the bootstrapped estimates (\code{summary}) and the raw bootstrapped results (\code{raw_boots})
 #'
 #' @export
 #'
@@ -254,7 +224,7 @@ escapement <- function(passage,
 #' @import tictoc
 #'
 #' @examples
-#' dontrun{
+#' \dontrun{
 #' boot_escapement(dat, models)
 #' }
 boot_escapement <- function(dat,
