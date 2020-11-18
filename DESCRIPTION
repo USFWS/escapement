@@ -20,7 +20,7 @@ Imports:
   ggpubr,
   knitr,
   lubridate,
-  rmarkdown,
   segmented,
   tictoc,
-  tidyverse
+  tidyverse,
+  tinytex
