@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' loadRdata("/path/to/my/file.Rdata")
+#' loadRdata("myfile.Rdata")
 #' }
 loadRData <- function(input){
   #loads an RData file, and returns it
@@ -18,14 +18,17 @@ loadRData <- function(input){
 
 
 
-#' An internal function used to generate bootstrapped confidence intervals around salmon escapement estimates
+#' An internal function to generate bootstrapped confidence intervals around salmon escapement estimates
 #'
 #' @param year1 a numeric value indicating the year of data to bootstrap
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @import tidyverse
+#' @import dplyr
+#' @import magrittr
 #' @import boot
+#' @import tictoc
+#' @import segmented
 #'
 #' @return bootstrapped estimates
 #'
@@ -45,7 +48,7 @@ bootit <- function(year1, dat, models) {
 
   # Subset data by a given year
   dat_year <- datud %>%
-    mutate(year = lubridate::year(date)) %>%
+    dplyr::mutate(year = lubridate::year(date)) %>%
     dplyr::filter(year == year1)
 
 
@@ -54,7 +57,7 @@ bootit <- function(year1, dat, models) {
     tot <- function(data, indices, formula, dat) {
       d <- datud[indices, ] # allows boot to select sample
       fit <- lm(formula, data = d)
-      pred_vid <- predict(fit, dat)
+      pred_vid <- stats::predict(fit, dat)
       return(sum(pred_vid, na.rm = TRUE))
     }
   }
@@ -62,11 +65,11 @@ bootit <- function(year1, dat, models) {
     tot <- function(data, indices, formula, dat) {
       d <- datud[indices, ] # allows boot to select sample
       mod <- lm(formula, data = d)
-      fit <- segmented(mod,
+      fit <- segmented::segmented(mod,
                        seg.Z = ~photo,
                        psi = 0,
                        control = seg.control(it.max=0))
-      pred_vid <- predict(fit, dat)
+      pred_vid <- stats::predict(fit, dat)
       return(sum(pred.vid, na.rm = TRUE))
     }
   }

@@ -50,7 +50,7 @@ model_escapement <- function(dat,
                                   sort = TRUE)
 
   # Define the best model based on the lowest AICc
-  top_model <- models[[which.min(sapply(1:length(models), function (x) AIC(models[[x]])))]]
+  top_model <- models[[which.min(sapply(1:length(models), function (x) stats::AIC(models[[x]])))]]
 
   model_results <- list("models" = models,
                         "aic_table" = aic_table,
@@ -75,6 +75,7 @@ model_escapement <- function(dat,
 #' @return a list of objects including residual plots, a score test for non-constant error variance (a code{chisqTest} object) returned by \code{car::ncvTest()}, a spread level plot (object of class \code{spreadLevelPlot}) returned by \code{car::spreadLevelPlot()}, influence measures returned by \code{influence.measures()}, and Cook's distances returned by \code{cooks.distance()}
 #'
 #' @import ggplot2
+#' @import car
 #'
 #' @examples
 #' \dontrun{
@@ -86,7 +87,7 @@ model_diagnostics <- function(models){
                         nbreaks = 20) {
     # residplot function (only have to run this part once,
     # then can use the "residplot()" function afterwards)
-    z <- data.frame(rstudent(models$top_model))
+    z <- data.frame(stats::rstudent(models$top_model))
 
     p <- ggplot2::ggplot(data = z, aes(x=z[[1]], y=..density..)) +
       geom_histogram() +
@@ -102,8 +103,8 @@ model_diagnostics <- function(models){
   spread_level <- car::spreadLevelPlot(models$top_model)
 
   # Influence and leverage tools
-  influ_measures <- influence.measures(models$top_model)
-  cooks_dist <- cooks.distance(models$top_model)
+  influ_measures <- stats::influence.measures(models$top_model)
+  cooks_dist <- stats::cooks.distance(models$top_model)
 
   model_diagnostics <- list("resids" = resids,
                             "ncv_test" = ncv_test,
@@ -134,7 +135,7 @@ model_diagnostics <- function(models){
 hourly_passage <- function(dat,
                            models) {
   dat$U1.photo <- ifelse(dat$photo < 0, 0, dat$photo)  # adds a new variable (U1.photo) that replaces negative photo counts with zero (for predicting segmented models)
-  escapement <- predict(models$top_model, dat)   # calculates the fitted number of upward passing fish
+  escapement <- stats::predict(models$top_model, dat)   # calculates the fitted number of upward passing fish
 }
 
 
@@ -149,7 +150,8 @@ hourly_passage <- function(dat,
 #'
 #' @return a data frame of daily salmon escapement estimates, grouped by day
 #'
-#' @import tidyverse
+#' @import magrittr
+#' @import dplyr
 #'
 #' @export
 #'
@@ -164,9 +166,9 @@ daily_passage <- function(passage,
                     "passage" = passage)
 
   daily <- dat %>%
-    mutate(day = as.Date(date)) %>%
-    group_by(day) %>%
-    summarize(passage = sum(passage))
+    dplyr::mutate(day = as.Date(date)) %>%
+    dplyr::group_by(day) %>%
+    dplyr::summarize(passage = sum(passage))
   return(daily)
 }
 
@@ -182,7 +184,9 @@ daily_passage <- function(passage,
 #'
 #' @return a data frame of annual salmon escapement estimates, grouped by year
 #'
-#' @import tidyverse
+#' @import magrittr
+#' @import dplyr
+#' @import lubridate
 #'
 #' @export
 #'
@@ -197,9 +201,9 @@ escapement <- function(passage,
                     "passage" = passage)
 
   ae <- dat %>%
-    mutate(year = lubridate::year(date)) %>%
-    group_by(year) %>%
-    summarise(escapement = sum(passage, na.rm = T))
+    dplyr::mutate(year = lubridate::year(date)) %>%
+    dplyr::group_by(year) %>%
+    dplyr::summarise(escapement = sum(passage, na.rm = T))
 
   return(ae)
 }
@@ -218,10 +222,7 @@ escapement <- function(passage,
 #'
 #' @export
 #'
-#' @import boot
-#' @import tidyverse
-#' @import ggpubr
-#' @import tictoc
+#' @import lubridate
 #'
 #' @examples
 #' \dontrun{

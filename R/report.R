@@ -13,9 +13,11 @@
 #' @return an RMarkdown-generated report
 #'
 #' @import bookdown
-#' @import knitr
 #' @import broom
-#' @import tinytex
+#' @import scales
+#' @import dplyr
+#' @import magrittr
+#' @import kableExtra
 #'
 #' @export
 #'

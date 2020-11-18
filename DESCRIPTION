@@ -15,12 +15,12 @@ Imports:
   bookdown,
   boot,
   broom,
+  car,
   dplyr,
   ggplot2,
-  ggpubr,
-  knitr,
+  kableExtra,
   lubridate,
+  magrittr,
+  scales,
   segmented,
-  tictoc,
-  tidyverse,
-  tinytex
+  tictoc

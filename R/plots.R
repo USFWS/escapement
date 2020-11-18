@@ -11,7 +11,9 @@
 #'
 #' @export
 #'
-#' @import tidyverse
+#' @import ggplot2
+#' @import dplyr
+#' @import magrittr
 #' @import lubridate
 #'
 #' @examples
@@ -23,9 +25,9 @@ explore_plots <- function(dat){
 
   # Plot the photo data by year
   p[["photo_counts"]] <- dat %>%
-    mutate(day = as.Date(date)) %>%
-    group_by(day, year) %>%
-    summarize(photo = sum(photo)) %>%
+    dplyr::mutate(day = as.Date(date)) %>%
+    dplyr::group_by(day, year) %>%
+    dplyr::summarize(photo = sum(photo)) %>%
     ggplot(aes(day, photo)) +
     geom_line() +
     labs(x = "Date",
@@ -35,9 +37,9 @@ explore_plots <- function(dat){
                ncol = 1)
   # Hourly counts within a day
   p[["hourly_counts"]] <- dat %>%
-    mutate(hour = lubridate::hour(date)) %>%
-    group_by(hour, year) %>%
-    summarize(photo = sum(photo, na.rm=TRUE)) %>%
+    dplyr::mutate(hour = lubridate::hour(date)) %>%
+    dplyr::group_by(hour, year) %>%
+    dplyr::summarize(photo = sum(photo, na.rm=TRUE)) %>%
     ggplot(aes(hour, photo)) +
     geom_line() +
     facet_wrap(.~year,
@@ -101,6 +103,8 @@ plot_topmodel <- function(models){
 #' @param boots a data frame returned by \code{boot_escapement()}
 #'
 #' @return a \code{ggplot2} Rdata object
+#'
+#' @import ggplot2
 #'
 #' @export
 #'
@@ -168,8 +172,9 @@ plot_boot_escapement <- function(boots) {
 #'
 #' @return a \code{ggplot()} object
 #'
-#' @import tidyverse
+#' @import ggplot2
 #' @import dplyr
+#' @import magrittr
 #'
 #' @export
 #'
@@ -179,10 +184,10 @@ plot_boot_escapement <- function(boots) {
 #' }
 plot_daily <- function(dat, models) {
   p <- dat %>%
-    mutate(day = as.numeric(format(date, "%j")),
+    dplyr::mutate(day = as.numeric(format(date, "%j")),
            year = factor(year),
            escapement = predict(models$top_model, dat)) %>%
-    group_by(day, year) %>%
+    dplyr::group_by(day, year) %>%
     dplyr::summarize(escapement = sum(escapement)) %>%
     ggplot(aes(day, escapement)) +
     geom_line() +
@@ -206,7 +211,9 @@ plot_daily <- function(dat, models) {
 #'
 #' @return a \code{ggplot()} object
 #'
-#' @import tidyverse
+#' @import dplyr
+#' @import magrittr
+#' @import ggplot2
 #' @import lubridate
 #'
 #' @export
@@ -217,10 +224,10 @@ plot_daily <- function(dat, models) {
 #' }
 plot_hrly <- function(dat, models){
   p <- dat %>%
-    mutate(hour = as.numeric(lubridate::hour(date)),
+    dplyr::mutate(hour = as.numeric(lubridate::hour(date)),
            year = factor(dat$year),
            escapement = predict(models$top_model, dat)) %>%
-    group_by(hour, year) %>%
+    dplyr::group_by(hour, year) %>%
     dplyr::summarize(escapement = sum(escapement, na.rm = T)) %>%
     ggplot(aes(hour, escapement)) +
     geom_line() +

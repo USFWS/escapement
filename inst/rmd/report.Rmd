@@ -61,28 +61,28 @@ dat <- suppressWarnings(import_format(params$input_data))
 
 ```{r analysis, echo=FALSE, include=FALSE}
 models <- model_escapement(dat)
-dat$escapement <- predict(models$top_model, dat)
+dat$escapement <- stats::predict(models$top_model, dat)
 boots <- boot_escapement(dat, models)
 ```
 
 ```{r daily-summary, echo=FALSE, include=FALSE}
 dat_daily <- dat %>%
-    mutate(day = as.Date(date),
-           escapement = predict(models$top_model, dat)) %>%
-    group_by(day, year) %>%
+    dplyr::mutate(day = as.Date(date),
+           escapement = stats::predict(models$top_model, dat)) %>%
+    dplyr::group_by(day, year) %>%
     dplyr::summarize(escapement = sum(escapement)) %>%
-  ungroup()
+  dplyr::ungroup()
 
 peak <- dat_daily %>%
-  filter(year == max(dat_daily$year)) %>%
-  filter(escapement == max(escapement, na.rm = T))
+  dplyr::filter(year == max(dat_daily$year)) %>%
+  dplyr::filter(escapement == max(escapement, na.rm = T))
 ```
 
 
 ```{r peak, echo=FALSE, include=FALSE}
 peak <- dat_daily %>%
-  filter(year == max(dat_daily$year)) %>%
-  filter(escapement == max(escapement, na.rm = T))
+  dplyr::filter(year == max(dat_daily$year)) %>%
+  dplyr::filter(escapement == max(escapement, na.rm = T))
 ```
 
 ---
@@ -102,7 +102,7 @@ author: |
 \newpage
 
 # Abstract {-}
-A time-lapse photography and video recording system were used to enumerate adult sockeye salmon (*Oncorhynchus nerka*) entering Akalura Lake. In `r as.character(max(dat$year))`, the system was installed on `r as.character(format(min(subset(dat$date, dat$year == max(dat$year))), "%d %B"))` and operated through `r as.character(format(max(subset(dat$date, dat$year == max(dat$year))), "%d %B, %Y"))`. The time-lapse photography camera recorded 3 sequential pictures at the start of each minute for the duration of the project. Following a double-sampling protocol, a `r tolower(models$aic_table$Modnames[[1]])` model of the relationship between time-lapse and video counts was found to be the most parsimonious mode to predict salmon passage across the season. In `r as.character(peak$year)`, estimated daily salmon passage peaked at `r round(peak$escapement, 0)` on `r as.character(format(peak$day, "%B %d, %Y"))` and by the end of the season a total of `r round(last(boots$summary$escapement), 0)`(95% CI=`r round(last(boots$summary$lower_ci), 0)`--`r round(last(boots$summary$upper_ci), 0)`) sockeye were estimated to have migrated into Akalura Lake.
+A time-lapse photography and video recording system were used to enumerate adult sockeye salmon (*Oncorhynchus nerka*) entering Akalura Lake. In `r max(dat$year)`, the system was installed on `r format(min(subset(dat$date, dat$year == max(dat$year))), "%d %B")` and operated through `r format(max(subset(dat$date, dat$year == max(dat$year))), "%d %B, %Y")`. The time-lapse photography camera recorded 3 sequential pictures at the start of each minute for the duration of the project. Following a double-sampling protocol, a `r tolower(models$aic_table$Modnames[[1]])` model of the relationship between time-lapse and video counts was found to be the most parsimonious mode to predict salmon passage across the season. In `r peak$year`, estimated daily salmon passage peaked at `r round(peak$escapement, 0)` on `r format(peak$day, "%B %d, %Y")` and by the end of the season a total of `r round(last(boots$summary$escapement), 0)`(95% CI=`r round(last(boots$summary$lower_ci), 0)`--`r round(last(boots$summary$upper_ci), 0)`) sockeye were estimated to have migrated into Akalura Lake.
 
 # Introduction {-}
 Management of salmon within the Kodiak Management Area (KMA) is the responsibility of Alaska Department of Fish and Game (ADF&G) who monitors escapement on many systems within Kodiak Refuge boundaries. Escapement goals for KMA salmon stocks are based on the Policy for the Management of Sustainable Salmon Fisheries (SSFP; 5 AAC 39.222) and the Policy for Statewide Salmon Escapement Goals (EGP; 5 AAC 39.223). These policies were adopted by the Alaska Board of Fisheries in 2000 and 2001, respectively, to ensure the state’s salmon stocks would be conserved, managed, and developed using the sustained yield principle. Escapement information provides the basis for ensuring biological integrity, and is the foundation for in season management actions that regulate commercial, sport, and subsistence harvest of salmon (Spalinger 2006). Historical studies have documented salmon utilizing over 800 systems within the KMA (Johnson and Keyse 2013), but only about 49 support yearly sockeye salmon spawning populations (Johnson and Blanche 2010). Of these 49, escapement is monitored in only 10 systems. During the annual review of escapement goals in 2005 by ADF&G, the Akalura, as well as Uganik and Little Rivers, escapement goals were eliminated. The elimination of these goals was based on reliable escapement estimates not being consistently collected due to budget constraints (Nelson et al. 2005).  
@@ -153,7 +153,7 @@ The most parsimonious model was the `r tolower(models$aic_table$Modnames[[1]])` 
 ```{r topmodel-table, echo=F, warning=F, message=F}
 models$top_model %>%
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value)) %>%
+  dplyr::mutate(p.value = scales::pvalue(p.value)) %>%
   knitr::kable(caption = "Summary of the most parsimonious model using to minimum annual salmon escapement, Akalura River, Kodiak Island, Alaska.",
                col.names = c("Predictor", "B", "SE", "t", "p"),
                digits = c(0, 2, 3, 2, 3),
@@ -161,7 +161,7 @@ models$top_model %>%
                booktabs = TRUE)
 ```
 
-Using the top model, we estimated daily salmon passage peaked at `r as.character(round(peak$escapement, 0))` salmon on `r as.character(format(peak$day, "%B %d, %Y"))`. Annual escapement was `r round(last(boots$summary$escapement), 0)`(95% CI=`r round(last(boots$summary$lower_ci), 0)`-`r round(last(boots$summary$upper_ci), 0)`) salmon. Escapement in `r as.character(boots$summary[nrow(boots$summary), "year"])` was `r round(boots$summary[nrow(boots$summary), "escapement"], )` salmon compared to `r round(boots$summary[nrow(boots$summary)-1, "escapement"], 0)` salmon in `r as.character(boots$summary[nrow(boots$summary)-1, "year"])` (Table \@ref(tab:summary-table)).
+Using the top model, we estimated daily salmon passage peaked at `r as.character(round(peak$escapement, 0))` salmon on `r format(peak$day, "%B %d, %Y")`. Annual escapement was `r round(last(boots$summary$escapement), 0)`(95% CI=`r round(last(boots$summary$lower_ci), 0)`-`r round(last(boots$summary$upper_ci), 0)`) salmon. Escapement in `r boots$summary[nrow(boots$summary), "year"]` was `r round(boots$summary[nrow(boots$summary), "escapement"], )` salmon compared to `r round(boots$summary[nrow(boots$summary)-1, "escapement"], 0)` salmon in `r boots$summary[nrow(boots$summary)-1, "year"]` (Table \@ref(tab:summary-table)).
 
 ```{r boot-plot, echo=FALSE, fig.cap="Mean minimum escapement estimates for Akalura River, Kodiak Island, Alaska. Error bars represent 95% CIs."}
 p.boots <- plot_boot_escapement(boots)
