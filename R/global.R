@@ -27,8 +27,6 @@ loadRData <- function(input){
 #' @import tidyverse
 #' @import boot
 #'
-#' @export
-#'
 #' @return bootstrapped estimates
 #'
 #' @examples
