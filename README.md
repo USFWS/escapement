@@ -7,7 +7,7 @@ An R package that incudes functions for estimating salmon passage and abundances
 # Instructions
 
 The `escapement` package requires several programs to function:  
-1. [R](https://cloud.r-project.org/) ($\ge$v4.0)
+1. [R](https://cloud.r-project.org/) (>=4.0)
 2. [Rtools 40](https://cran.r-project.org/bin/windows/Rtools/)
 
 To install and load the package:  
