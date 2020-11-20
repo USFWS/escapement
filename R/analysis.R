@@ -142,7 +142,7 @@ hourly_passage <- function(dat,
   dat_hourly <- data.frame(dat,
                           passage = hourly)
   dat_hourly <- dat_hourly %>%
-    dplyr::group_by(year) %>%
+    dplyr::group_by(factor(year)) %>%
     dplyr::mutate(cumul_passage = cumsum(ifelse(is.na(passage), 0, passage)) + passage * 0) %>%
     dplyr::ungroup() %>%
     select(-c(photo, video, U1.photo, julian_day, year))

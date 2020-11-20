@@ -34,7 +34,8 @@ explore_plots <- function(dat){
          y = "Photo counts") +
     facet_wrap(.~year,
                scales = "free",
-               ncol = 1)
+               ncol = 1) +
+    theme_bw()
   # Hourly counts within a day
   p[["hourly_counts"]] <- dat %>%
     dplyr::mutate(hour = lubridate::hour(date)) %>%
@@ -44,7 +45,8 @@ explore_plots <- function(dat){
     geom_line() +
     facet_wrap(.~year,
                scales = "free",
-               ncol = 1)
+               ncol = 1) +
+    theme_bw()
   return(p)
 }
 
@@ -80,15 +82,7 @@ plot_topmodel <- function(models){
                linetype = 3) +
     labs(y = "Video count",
          x = "Photo count") +
-    theme_bw() +
-    theme(panel.grid.minor = element_blank(),
-          panel.grid.major = element_blank(),
-          axis.title.y = element_text(size = 16,
-                                      lineheight = 0.9),
-          axis.title.x = element_text(size = 16,
-                                      lineheight = 0.9,
-                                      hjust = 0.46),
-          axis.text = element_text(size = 14))
+    theme_classic()
 
   return(p)
 }
@@ -136,18 +130,10 @@ plot_boot_escapement <- function(boots) {
     geom_vline(data = summary,
                aes(xintercept = escapement,
                    group = year),
-               alpha = 0.2) +
+               alpha = 0.75) +
     labs(x = "Bootstrapped values",
          y = "Density") +
-    theme_bw() +
-    theme(panel.grid.minor = element_blank(),
-          panel.grid.major = element_blank(),
-          axis.title.y = element_text(size = 16,
-                                      lineheight = 0.9),
-          axis.title.x = element_text(size = 16,
-                                      lineheight = 0.9,
-                                      hjust = 0.46),
-          axis.text = element_text(size = 14))
+    theme_classic()
 
   p[["min_escape"]] <- ggplot(boots$summary,
                               aes(x = as.factor(year), y = escapement)) +
@@ -155,7 +141,8 @@ plot_boot_escapement <- function(boots) {
                   aes(ymin = lower_ci, ymax = upper_ci),
                   width = 0.1) +
     geom_point() +
-    labs(x = "Year", y = "Est. min. escapement")
+    labs(x = "Year", y = "Minimum escapement") +
+    theme_classic()
 
   return(p)
 }
@@ -195,7 +182,8 @@ plot_daily <- function(dat, models) {
     facet_wrap(. ~ year,
                scales = "fixed",
                ncol = 1) +
-    scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b"))
+    scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b")) +
+    theme_bw()
 
   p[["cumul_daily"]] <- ggplot(dat_daily, aes(x = julian,
                                             y = cumul_passage,
@@ -204,7 +192,8 @@ plot_daily <- function(dat, models) {
     geom_line() +
     labs(x = "Date",
          y = "Salmon passage") +
-    scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b"))
+    scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b")) +
+    theme_classic()
 
   return(p)
 }
@@ -245,7 +234,8 @@ plot_hourly <- function(dat, models){
          y = "Salmon passage") +
     facet_wrap(. ~ year,
                scales = "free_y",
-               ncol = 1)
+               ncol = 1) +
+    theme_bw()
 
   return(p)
 }
