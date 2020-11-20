@@ -191,18 +191,23 @@ knitr::kable(boots$summary,
              )
 ```
 
-```{r hourly-plot, echo=FALSE, fig.cap="Average salmon escapement by hour within a day, grouped by year, Akalura River, Kodiak, Alaska."}
-plot_hrly(dat, models)
+```{r hourly-plot, echo=FALSE, fig.cap="Sum of hourly salmon passage, grouped by year, Akalura River, Kodiak, Alaska."}
+plot_hourly(dat, models)
 ```
 
 ```{r daily-plot, echo=FALSE, fig.cap="Daily salmon escapement, grouped by year, Akalura River, Kodiak, Alaska."}
-plot_daily(dat, models)
+p <- plot_daily(dat, models)
+p[["daily"]]
 ```
 
 ```{r topmodel-plot, echo=FALSE, fig.cap="Video and time-lapse camera salmon counts, Akalura River, Kodiak, Alaska. The line shows the fit of the top model."}
 plot_topmodel(models)
 ```
 
+```{r cumul_daily-plot, echo=FALSE, fig.cap="Video and time-lapse camera salmon counts, Akalura River, Kodiak, Alaska. The line shows the fit of the top model."}
+p <- plot_daily(dat, models)
+p[["cumul_daily"]]
+```
 
 \newpage
 

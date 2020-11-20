@@ -31,6 +31,7 @@ import_format <- function(input,
   dat$julian_day <- as.numeric(format(as.Date(dat$date),
                                   "%j"))  # Add a Julian day column
   dat$year <- lubridate::year(dat$date)
+  dat$year <- factor(dat$year)
 
   # Option to save the data frame
   if(saveit == TRUE){

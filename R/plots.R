@@ -170,11 +170,10 @@ plot_boot_escapement <- function(boots) {
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @return a \code{ggplot()} object
+#' @return a list containign two \code{ggplot()} objects. \code{daily} is a plot of daily salmon passage by year. \code{cumul_daily} is a plot of cumulative salmon passage by year.
 #'
 #' @import ggplot2
-#' @import dplyr
-#' @import magrittr
+#' @importFrom lubridate year
 #'
 #' @export
 #'
@@ -183,13 +182,13 @@ plot_boot_escapement <- function(boots) {
 #' plot_daily(dat, models)
 #' }
 plot_daily <- function(dat, models) {
-  p <- dat %>%
-    dplyr::mutate(day = as.numeric(format(date, "%j")),
-           year = factor(year),
-           escapement = predict(models$top_model, dat)) %>%
-    dplyr::group_by(day, year) %>%
-    dplyr::summarize(escapement = sum(escapement)) %>%
-    ggplot(aes(day, escapement)) +
+  dat_daily <- daily_passage(dat, models)
+  dat_daily$year <- factor(lubridate::year(dat_daily$date))
+  dat_daily$julian <- as.numeric(format(dat_daily$date, "%j"))
+
+  p <- list()
+
+  p[["daily"]] <- ggplot(dat_daily, aes(julian, passage)) +
     geom_line() +
     labs(x = "Date",
          y = "Salmon passage") +
@@ -197,44 +196,56 @@ plot_daily <- function(dat, models) {
                scales = "fixed",
                ncol = 1) +
     scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b"))
+
+  p[["cumul_daily"]] <- ggplot(dat_daily, aes(x = julian,
+                                            y = cumul_passage,
+                                            group = year,
+                                            color = year)) +
+    geom_line() +
+    labs(x = "Date",
+         y = "Salmon passage") +
+    scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b"))
+
   return(p)
 }
 
 
 ## ----
-## @knitr plot_hrly
+## @knitr plot_hourly
 
 #' Plot estimate hourly salmon escapement by day
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @return a \code{ggplot()} object
+#' @return a \code{ggplot()} facetted plot showing
 #'
-#' @import dplyr
-#' @import magrittr
+#' @importFrom dplyr mutate group_by summarize
+#' @importFrom magrittr %>%
 #' @import ggplot2
-#' @import lubridate
+#' @importFrom lubridate hour
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' plot_hrly(dat, models)
+#' plot_hourly(dat, models)
 #' }
-plot_hrly <- function(dat, models){
+plot_hourly <- function(dat, models){
   p <- dat %>%
     dplyr::mutate(hour = as.numeric(lubridate::hour(date)),
-           year = factor(dat$year),
-           escapement = predict(models$top_model, dat)) %>%
+                  year = factor(dat$year),
+                  passage = predict(models$top_model, dat)) %>%
     dplyr::group_by(hour, year) %>%
-    dplyr::summarize(escapement = sum(escapement, na.rm = T)) %>%
-    ggplot(aes(hour, escapement)) +
+    dplyr::summarize(passage = sum(passage, na.rm = T)) %>%
+    ggplot(aes(x = hour,
+               y = passage)) +
     geom_line() +
     labs(x="Hour of day",
          y = "Salmon passage") +
     facet_wrap(. ~ year,
                scales = "free_y",
                ncol = 1)
+
   return(p)
 }

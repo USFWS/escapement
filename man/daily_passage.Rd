@@ -2,23 +2,23 @@
 % Please edit documentation in R/analysis.R
 \name{daily_passage}
 \alias{daily_passage}
-\title{Estimate daily passage of salmon based on the top model from \code{model_escapement()}}
+\title{Estimate daily passage and cumulative daily passage of salmon based on the top model from \code{model_escapement()}}
 \usage{
-daily_passage(passage, date_time)
+daily_passage(dat, models)
 }
 \arguments{
-\item{passage}{a numeric vector of hourly salmon passage estimates returned from \code{hourly_passage()}}
+\item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
 
-\item{date_time}{a POSIXct vector of associated dates and times}
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
-a data frame of daily salmon escapement estimates, grouped by day
+a data frame containing daily salmon passage and cumulative daily salmon passage
 }
 \description{
-Estimate daily passage of salmon based on the top model from \code{model_escapement()}
+Estimate daily passage and cumulative daily passage of salmon based on the top model from \code{model_escapement()}
 }
 \examples{
 \dontrun{
-daily_passage(passage, dat$date)
+daily_passage(dat, models)
 }
 }

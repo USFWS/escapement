@@ -12,7 +12,7 @@ plot_daily(dat, models)
 \item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
-a \code{ggplot()} object
+a list containign two \code{ggplot()} objects. \code{daily} is a plot of daily salmon passage by year. \code{cumul_daily} is a plot of cumulative salmon passage by year.
 }
 \description{
 Plot estimated minimum daily salmon escapement by year

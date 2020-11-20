@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis.R
 \name{hourly_passage}
 \alias{hourly_passage}
-\title{Estimate hourly passage of salmon based on the top model from \code{model_escapement()}}
+\title{Estimate hourly passage and cumulative hourly passage of salmon based on the top model from \code{model_escapement()}}
 \usage{
 hourly_passage(dat, models)
 }
@@ -12,10 +12,10 @@ hourly_passage(dat, models)
 \item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
-a data frame containing formatted salmon count data returned by \code{import_format()} and a column containing estimates of hourly salmon passage that are predicted from the top model
+a data frame containing hourly salmon passage and cumulative hourly salmon passage
 }
 \description{
-Estimate hourly passage of salmon based on the top model from \code{model_escapement()}
+Estimate hourly passage and cumulative hourly passage of salmon based on the top model from \code{model_escapement()}
 }
 \examples{
 \dontrun{

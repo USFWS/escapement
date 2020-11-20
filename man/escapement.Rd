@@ -4,12 +4,12 @@
 \alias{escapement}
 \title{Estimate annual salmon escapement}
 \usage{
-escapement(passage, date_time)
+escapement(dat, models)
 }
 \arguments{
-\item{passage}{a numeric vector of hourly salmon escapement estimates returned from \code{hourly_passage()}}
+\item{dat}{a data frame containing formatted salmon count data returned by \code{import_format()}}
 
-\item{date_time}{a POSIXct vector of associated dates and times}
+\item{models}{a list of model output returned from \code{model_escapement}}
 }
 \value{
 a data frame of annual salmon escapement estimates, grouped by year

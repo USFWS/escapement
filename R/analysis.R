@@ -119,12 +119,15 @@ model_diagnostics <- function(models){
 ## ----
 ## @knitr hourly_passage
 
-#' Estimate hourly passage of salmon based on the top model from \code{model_escapement()}
+#' Estimate hourly passage and cumulative hourly passage of salmon based on the top model from \code{model_escapement()}
 #'
 #' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
 #' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @return a data frame containing formatted salmon count data returned by \code{import_format()} and a column containing estimates of hourly salmon passage that are predicted from the top model
+#' @return a data frame containing hourly salmon passage and cumulative hourly salmon passage
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate ungroup select
 #'
 #' @export
 #'
@@ -135,7 +138,16 @@ model_diagnostics <- function(models){
 hourly_passage <- function(dat,
                            models) {
   dat$U1.photo <- ifelse(dat$photo < 0, 0, dat$photo)  # adds a new variable (U1.photo) that replaces negative photo counts with zero (for predicting segmented models)
-  escapement <- stats::predict(models$top_model, dat)   # calculates the fitted number of upward passing fish
+  hourly <- stats::predict(models$top_model, dat)   # calculates the fitted number of upward passing fish
+  dat_hourly <- data.frame(dat,
+                          passage = hourly)
+  dat_hourly <- dat_hourly %>%
+    dplyr::group_by(year) %>%
+    dplyr::mutate(cumul_passage = cumsum(ifelse(is.na(passage), 0, passage)) + passage * 0) %>%
+    dplyr::ungroup() %>%
+    select(-c(photo, video, U1.photo, julian_day, year))
+
+  return(dat_hourly)
 }
 
 
@@ -143,33 +155,37 @@ hourly_passage <- function(dat,
 ## ----
 ## @knitr daily_passage
 
-#' Estimate daily passage of salmon based on the top model from \code{model_escapement()}
+#' Estimate daily passage and cumulative daily passage of salmon based on the top model from \code{model_escapement()}
 #'
-#' @param passage a numeric vector of hourly salmon passage estimates returned from \code{hourly_passage()}
-#' @param date_time a POSIXct vector of associated dates and times
+#' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#' @param models a list of model output returned from \code{model_escapement}
 #'
-#' @return a data frame of daily salmon escapement estimates, grouped by day
+#' @return a data frame containing daily salmon passage and cumulative daily salmon passage
 #'
-#' @import magrittr
-#' @import dplyr
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by mutate select ungroup
+#' @importFrom lubridate year
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' daily_passage(passage, dat$date)
+#' daily_passage(dat, models)
 #' }
-daily_passage <- function(passage,
-                          date_time){
+daily_passage <- function(dat,
+                           models) {
+  dat_hourly <- hourly_passage(dat, models)
+  dat_daily <- dat_hourly %>%
+    dplyr::mutate(date = as.Date(date)) %>%
+    dplyr::group_by(date) %>%
+    dplyr::summarize(passage = sum(passage)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(year = lubridate::year(date)) %>%
+    dplyr::mutate(cumul_passage = cumsum(ifelse(is.na(passage), 0, passage)) + passage * 0) %>%
+    dplyr::ungroup() %>%
+    select(-year)
 
-  dat <- data.frame("date" = date_time,
-                    "passage" = passage)
-
-  daily <- dat %>%
-    dplyr::mutate(day = as.Date(date)) %>%
-    dplyr::group_by(day) %>%
-    dplyr::summarize(passage = sum(passage))
-  return(daily)
+  return(dat_daily)
 }
 
 
@@ -179,13 +195,13 @@ daily_passage <- function(passage,
 
 #' Estimate annual salmon escapement
 #'
-#' @param passage a numeric vector of hourly salmon escapement estimates returned from \code{hourly_passage()}
-#' @param date_time a POSIXct vector of associated dates and times
+#' @param dat a data frame containing formatted salmon count data returned by \code{import_format()}
+#' @param models a list of model output returned from \code{model_escapement}
 #'
 #' @return a data frame of annual salmon escapement estimates, grouped by year
 #'
-#' @import magrittr
-#' @import dplyr
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by summarize ungroup
 #' @importFrom lubridate year
 #'
 #' @export
@@ -194,16 +210,15 @@ daily_passage <- function(passage,
 #' \dontrun{
 #' escapement(passage, dat$date)
 #' }
-escapement <- function(passage,
-                       date_time){
+escapement <- function(dat,
+                       models){
 
-  dat <- data.frame("date" = date_time,
-                    "passage" = passage)
+  dat_hourly <- hourly_passage(dat, models)
 
-  ae <- dat %>%
-    dplyr::mutate(year = lubridate::year(date)) %>%
-    dplyr::group_by(year) %>%
-    dplyr::summarise(escapement = sum(passage, na.rm = T))
+  ae <- dat_hourly %>%
+    dplyr::group_by(lubridate::year(date)) %>%
+    dplyr::summarize(escapement = sum(passage, na.rm = T)) %>%
+    dplyr::ungroup()
 
   return(ae)
 }
