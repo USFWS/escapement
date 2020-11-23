@@ -1,0 +1,37 @@
+---
+title: "Introduction to `escapement`"
+author: "McCrea Cobb"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# What is `escapement`?
+`escapement` is an R package for estimating salmon escapement from photo and video double-observer count data. 
+
+# What's included?
+The package includes functions to:  
+1. Import a raw CSV file containing hourly counts of salmon quantified from photos and videos,
+2. Evaluate a candidate list of competing models to estimate salmon escapement,
+3. Generate tables and plots of the results, and
+4. Produce a dynamic parameterized report (PDF) of the results. 
+
+# How do I use it?
+
+## Importing and formatting data
+
+## Analysis
+
+## Creating tables and plots
+
+## Producing a report

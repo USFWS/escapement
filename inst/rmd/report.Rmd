@@ -148,7 +148,7 @@ To validate models and test for overfitting, we performed leave one out cross-va
 Using the best model for each stream, we predicted hourly salmon passage over the monitoring period. We summed hourly salmon passage sampling occasion to estimate salmon escapement. Because we did not use random sampling to select our modeling subsample, it is inappropriate to use the model variance to calculate confidence intervals for total escapement. Instead, we bootstrapped our subsample (Canty & Ripley, 2016) with replacement, refit our model using the top model structure, and re-predicted the total escapement (Efron & Tibshirani, 1993). We repeated this `r boots$raw_boots$boot_est$"2018"$R` times and used the 2.5 and 97.5 percentile values as upper and lower 95% confidence intervals of total escapement.  
 
 # Results {-}
-Based on `r $\Delta$AIC`, the most parsimonious model was the `r tolower(models$aic_table$Modnames[[1]])` model (Table \@ref(tab:topmodel-table), Figure \@ref(fig:topmodel-plot)). Model diagnostics indicated normal residuals and constant error variance (homoskedasticity). 
+Based on $\Delta$AICc, the most parsimonious model was the `r tolower(models$aic_table$Modnames[[1]])` model (Table \@ref(tab:topmodel-table), Figure \@ref(fig:topmodel-plot)). Model diagnostics indicated normal residuals and constant error variance (homoskedasticity). 
 
 ```{r topmodel-table, echo=F, warning=F, message=F}
 models$top_model %>%
@@ -157,11 +157,10 @@ models$top_model %>%
   knitr::kable(caption = "Summary of the most parsimonious model using to minimum annual salmon escapement, Akalura River, Kodiak Island, Alaska.",
                col.names = c("Predictor", "B", "SE", "t", "p"),
                digits = c(0, 2, 3, 2, 3),
-               format = "latex",
                booktabs = TRUE)
 ```
 
-Using the top model, we estimated daily salmon passage peaked at `r as.character(round(peak$escapement, 0))` salmon on `r format(peak$day, "%B %d, %Y")`. Annual escapement `r boots$summary[nrow(boots$summary), "year"]` was `r round(last(boots$summary$escapement), 0)` (95% CI=`r round(last(boots$summary$lower_ci), 0)`-`r round(last(boots$summary$upper_ci), 0)`) salmon. Escapement in `r boots$summary[nrow(boots$summary)-1, "year"]` was `r round(boots$summary[nrow(boots$summary)-1, "escapement"], 0)` salmon (Table \@ref(tab:summary-table)).
+Using the top model, we estimated daily salmon passage peaked at `r as.character(round(peak$escapement, 0))` salmon on `r format(peak$day, "%B %d, %Y")`. Annual escapement in `r boots$summary[nrow(boots$summary), "year"]` was `r round(last(boots$summary$escapement), 0)` (95% CI=`r round(last(boots$summary$lower_ci), 0)`-`r round(last(boots$summary$upper_ci), 0)`) salmon. Escapement in `r boots$summary[nrow(boots$summary)-1, "year"]` was `r round(boots$summary[nrow(boots$summary)-1, "escapement"], 0)` salmon (Table \@ref(tab:summary-table)).
 
 ```{r boot-plot, echo=FALSE, fig.cap="Mean minimum escapement estimates for Akalura River, Kodiak Island, Alaska. Error bars represent 95% CIs."}
 p.boots <- plot_boot_escapement(boots)
@@ -171,10 +170,9 @@ p.boots[["min_escape"]]
 ```{r aicc-table, echo=FALSE, message=F}
 knitr::kable(models$aic_table[c(1:4, 6, 8)],
              digits = 2,
-             format = "latex",
              booktabs = TRUE,
              caption = "AICc table of the candidate model set for estimating minimum annual salmon escapement, Akalura River, Kodiak, Alaska.",
-             col.names = c("Models", "K", expression(Delta*"AICc"), "Delta AICc", "AICc weight", "Cumulative weight"),
+             col.names = c("Models", "K", "AICc", "Delta AICc", "AICc weight", "Cumulative weight"),
              row.names = FALSE
              )
 ```
@@ -183,7 +181,6 @@ knitr::kable(models$aic_table[c(1:4, 6, 8)],
 ```{r summary-table, echo=FALSE, message=F}
 knitr::kable(boots$summary,
              digits = 0,
-             format = "latex",
              booktabs = TRUE,
              caption = "Annual escapement estimates based on the top model, Akalura River, Kodiak, Alaska.",
              col.names = c("Year", "Escapement", "Lower CI", "Upper CI"),
