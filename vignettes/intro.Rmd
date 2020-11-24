@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # What is `escapement`?
-`escapement` is an R package for estimating salmon escapement from photo and video double-observer count data. 
+`escapement` is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was specifically developed for Kodiak National Wildlife Refuges, but the functions following methods described in [Deacy et al. 2016](https://peerj.com/articles/2120).
 
 # What's included?
 The package includes functions to:  

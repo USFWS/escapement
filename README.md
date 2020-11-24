@@ -9,11 +9,17 @@ An R package that incudes functions for estimating salmon passage and abundances
 The `escapement` package requires several programs to function:  
 1. [R](https://cloud.r-project.org/) (>=4.0)
 2. [Rtools 40](https://cran.r-project.org/bin/windows/Rtools/)
+3. the `tinyTex` package. To install it from R:  
+      a. `if (!require("devtools")) install.packages("devtools")`  
+      b. `tinytex::install_tinytex()`
 
 To install and load the package:  
 `if (!require("devtools")) install.packages("devtools")`  
-`devtools::install_github("mccrea-cobb/escapement")`
-`library(escapement)`
+`devtools::install_github("mccrea-cobb/escapement", ref = "master", build_vignettes = TRUE)`  
+`library(escapement)`  
+
+To learn more about the package by reading the vignette:
+`vignette(topic = "intro", package = "escapement")`
 
 To create a report:  
 `run_report()`
