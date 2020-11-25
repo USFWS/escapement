@@ -16,22 +16,50 @@ knitr::opts_chunk$set(
 )
 ```
 
-# What is `escapement`?
-`escapement` is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was specifically developed for Kodiak National Wildlife Refuges, but the functions following methods described in [Deacy et al. 2016](https://peerj.com/articles/2120).
+## What is `escapement`?
+`escapement` is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was developed for estimating sockeye salmon minimum escapement for the Alulara River at Kodiak National Wildlife Refuge, Alaska. The functions follow methods published in [Deacy et al. 2016](https://peerj.com/articles/2120).
 
-# What's included?
+## What's required?
+The `escapement` package requires several programs to function:  
+
+1. [R](https://cloud.r-project.org/) (>=4.0)
+
+2. [Rtools 40](https://cran.r-project.org/bin/windows/Rtools/)
+
+3. the `tinyTex` package. To install it from R:  
+      a. `if (!require("devtools")) install.packages("devtools")`  
+      b. `tinytex::install_tinytex()`  
+
+To install and load the package:  
+`if (!require("devtools")) install.packages("devtools")`  
+`devtools::install_github("mccrea-cobb/escapement", ref = "master", build_vignettes = TRUE)`  
+`library(escapement)`  
+
+## What's inside?
 The package includes functions to:  
-1. Import a raw CSV file containing hourly counts of salmon quantified from photos and videos,
-2. Evaluate a candidate list of competing models to estimate salmon escapement,
-3. Generate tables and plots of the results, and
-4. Produce a dynamic parameterized report (PDF) of the results. 
 
-# How do I use it?
+1. Import a raw CSV file containing hourly counts of salmon quantified from photos and videos (`import_format()`), 
 
-## Importing and formatting data
+2. Evaluate a candidate list of competing models (linear, segmented, polynomial, and polynomial segmented) to estimate salmon escapement (`model_escapement()`),  
 
-## Analysis
+3. Generate tables and plots of the results, and  
 
-## Creating tables and plots
+4. Produce a dynamic parameterized report (PDF) of the results (`run_report()`). 
 
-## Producing a report
+## How do I use it?
+
+There are two general approaches to using `escapement` and selecting which approach to take depends on your needs. The first approach ("*step-wise*"), consists of using individual functions to work through the steps of importing and formatting input data, performing a statistical analysis, and creating tables and plots. This approach would be favored if the user is interested in examining the details of the analysis, would like to perform additional analyses not included in the package, or would like to export the tables and plots for a customized reporting format. The second approach ("*all in one*") performs all the above steps and compiles the results into a PDF report with `run_report()` function. This approach would be favored for annual reporting of results, specific to Kodiak Refuge's Akalura salmon escapement survey. Below are more details on the two approaches.
+
+### The "*stepwise*" approach
+
+#### Step 1: Importing and formatting data
+
+
+#### Step 2: Analysis and model selection
+
+
+#### Step 3: Creating tables and plots
+
+
+### The "*all-in-one*" approach: a report
+
