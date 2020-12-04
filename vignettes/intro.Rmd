@@ -9,15 +9,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include = FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+library(escapement)
 ```
 
 ## What is `escapement`?
-`escapement` is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was developed for estimating sockeye salmon minimum escapement for the Alulara River at Kodiak National Wildlife Refuge, Alaska. The functions follow methods published in [Deacy et al. 2016](https://peerj.com/articles/2120).
+`escapement` is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was developed for estimating sockeye salmon minimum escapement for the Alalura River at Kodiak National Wildlife Refuge, Alaska. The functions follow methods published in [Deacy et al. 2016](https://peerj.com/articles/2120).
 
 ## What's required?
 The `escapement` package requires several programs to function:  
@@ -31,9 +33,11 @@ The `escapement` package requires several programs to function:
       b. `tinytex::install_tinytex()`  
 
 To install and load the package:  
-`if (!require("devtools")) install.packages("devtools")`  
-`devtools::install_github("mccrea-cobb/escapement", ref = "master", build_vignettes = TRUE)`  
-`library(escapement)`  
+```{r, echo=TRUE, eval=FALSE}
+if (!require("devtools")) install.packages("devtools")
+devtools::install_github("mccrea-cobb/escapement", ref = "master", build_vignettes = TRUE)
+library(escapement)
+```
 
 ## What's inside?
 The package includes functions to:  
@@ -50,12 +54,64 @@ The package includes functions to:
 
 There are two general approaches to using `escapement` and selecting which approach to take depends on your needs. The first approach ("*step-wise*"), consists of using individual functions to work through the steps of importing and formatting input data, performing a statistical analysis, and creating tables and plots. This approach would be favored if the user is interested in examining the details of the analysis, would like to perform additional analyses not included in the package, or would like to export the tables and plots for a customized reporting format. The second approach ("*all in one*") performs all the above steps and compiles the results into a PDF report with `run_report()` function. This approach would be favored for annual reporting of results, specific to Kodiak Refuge's Akalura salmon escapement survey. Below are more details on the two approaches.
 
+## Help!  
+To find a help file for any function in `escapement`, type `?` and the name of the function. For example, to get help on how to use the `import_format()` function, type `?import_format`. 
+
 ### The "*stepwise*" approach
 
-#### Step 1: Importing and formatting data
+#### Step 1: Importing and formatting data using `import_format()`
+The first step to using any functions in `escapement` is to import and format data. This is done using the `import_format()` function, which takes in a CSV of data and returns a formatted R data frame. The function requires a file directory path to a CSV containing properly formatted data. The input CSV should contain the following three columns:
 
+- **`date`** Sequential hourly date values (YYYY-MM-DD hh:mm:ss) that range from the beginning of a summer season to the end of a summer season. Multiple years of data within a single CSV are acceptable. 
+- **`photo`** Numeric values describing the number of salmon counted from photos. Any missing values should contain `NA`.
+- **`video`** Numeric values describing the number of salmon counted from videos. Any missing values should contain `NA`.
+
+You can find the file path to an example of a properly formatted CSV by entering the following into the console:
+
+`system.file("extdata", "salmon_counts.csv", package = "escapement")`
+
+To import the example CSV data using the `import_format()` function, and store the output as an R data frame `dat` in the Global Environment:
+
+`dat <- import_format(system.file("extdata", "salmon_counts.csv", package = "escapement"))`
+
+You can then view `dat` data frame with `View(dat)`.
+
+```{r}
+dat <- import_format(system.file("extdata", "salmon_counts.csv", package = "escapement"))
+head(dat)
+```
 
 #### Step 2: Analysis and model selection
+Once you have a formatted data frame of hourly photo and video counts (See Step 1 for how to import and format data), you can analyze the data using `escapement`. This is done using the `model_escapement()` function. Analyzing data in our `dat` data frame that we imported above would be done using:
+```{r}
+our_models <- model_escapement(dat)
+```
+Taking a look inside the resulting `our_models` list:
+
+```{r}
+summary(our_models)
+```
+
+From this you can see that the `model_escapement()` function requires an R data frame (returned from `import_format()`) and returns a list of three objects:
+
+1. `models` A list of candidate model outputs. The current version of `escapement` runs four candidate models: a linear, polynomial, linear segmented, and polynomial segmented model. Continuing with our example above, you can view a summary of a model by typing the name of the list returned by `model_escapement`, selecting the `models` element, and then selecting the name of the model. For example:
+```{r}
+our_models <- model_escapement(dat)
+summary(our_models$models$linear)
+```
+
+
+2. `aic_table`
+
+```{r}
+our_models$aic_table
+```
+
+3. `top_model`
+
+```{r}
+our_models$top_model
+```
 
 
 #### Step 3: Creating tables and plots

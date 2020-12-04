@@ -12,7 +12,7 @@
 
 <meta name="author" content="McCrea Cobb" />
 
-<meta name="date" content="2020-11-25" />
+<meta name="date" content="2020-12-03" />
 
 <title>Introduction to escapement</title>
 
@@ -279,32 +279,60 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to <code>escapement</code></h1>
 <h4 class="author">McCrea Cobb</h4>
-<h4 class="date">2020-11-25</h4>
+<h4 class="date">2020-12-03</h4>
 
 
 
-<div id="what-is-escapement" class="section level1">
-<h1>What is <code>escapement</code>?</h1>
-<p><code>escapement</code> is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was specifically developed for Kodiak National Wildlife Refuges, but the functions following methods described in <a href="https://peerj.com/articles/2120">Deacy et al. 2016</a>.</p>
+<div id="what-is-escapement" class="section level2">
+<h2>What is <code>escapement</code>?</h2>
+<p><code>escapement</code> is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was developed for estimating sockeye salmon minimum escapement for the Alalura River at Kodiak National Wildlife Refuge, Alaska. The functions follow methods published in <a href="https://peerj.com/articles/2120">Deacy et al. 2016</a>.</p>
 </div>
-<div id="whats-included" class="section level1">
-<h1>What’s included?</h1>
-<p>The package includes functions to:<br />
-1. Import a raw CSV file containing hourly counts of salmon quantified from photos and videos, 2. Evaluate a candidate list of competing models to estimate salmon escapement, 3. Generate tables and plots of the results, and 4. Produce a dynamic parameterized report (PDF) of the results.</p>
+<div id="whats-required" class="section level2">
+<h2>What’s required?</h2>
+<p>The <code>escapement</code> package requires several programs to function:</p>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://cloud.r-project.org/">R</a> (&gt;=4.0)</p></li>
+<li><p><a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools 40</a></p></li>
+<li><p>the <code>tinyTex</code> package. To install it from R:</p>
+<ol style="list-style-type: lower-alpha">
+<li><code>if (!require(&quot;devtools&quot;)) install.packages(&quot;devtools&quot;)</code><br />
+</li>
+<li><code>tinytex::install_tinytex()</code></li>
+</ol></li>
+</ol>
+<p>To install and load the package:<br />
+<code>if (!require(&quot;devtools&quot;)) install.packages(&quot;devtools&quot;)</code><br />
+<code>devtools::install_github(&quot;mccrea-cobb/escapement&quot;, ref = &quot;master&quot;, build_vignettes = TRUE)</code><br />
+<code>library(escapement)</code></p>
 </div>
-<div id="how-do-i-use-it" class="section level1">
-<h1>How do I use it?</h1>
-<div id="importing-and-formatting-data" class="section level2">
-<h2>Importing and formatting data</h2>
+<div id="whats-inside" class="section level2">
+<h2>What’s inside?</h2>
+<p>The package includes functions to:</p>
+<ol style="list-style-type: decimal">
+<li><p>Import a raw CSV file containing hourly counts of salmon quantified from photos and videos (<code>import_format()</code>),</p></li>
+<li><p>Evaluate a candidate list of competing models (linear, segmented, polynomial, and polynomial segmented) to estimate salmon escapement (<code>model_escapement()</code>),</p></li>
+<li><p>Generate tables and plots of the results, and</p></li>
+<li><p>Produce a dynamic parameterized report (PDF) of the results (<code>run_report()</code>).</p></li>
+</ol>
 </div>
-<div id="analysis" class="section level2">
-<h2>Analysis</h2>
+<div id="how-do-i-use-it" class="section level2">
+<h2>How do I use it?</h2>
+<p>There are two general approaches to using <code>escapement</code> and selecting which approach to take depends on your needs. The first approach (“<em>step-wise</em>”), consists of using individual functions to work through the steps of importing and formatting input data, performing a statistical analysis, and creating tables and plots. This approach would be favored if the user is interested in examining the details of the analysis, would like to perform additional analyses not included in the package, or would like to export the tables and plots for a customized reporting format. The second approach (“<em>all in one</em>”) performs all the above steps and compiles the results into a PDF report with <code>run_report()</code> function. This approach would be favored for annual reporting of results, specific to Kodiak Refuge’s Akalura salmon escapement survey. Below are more details on the two approaches.</p>
+<div id="the-stepwise-approach" class="section level3">
+<h3>The “<em>stepwise</em>” approach</h3>
+<div id="step-1-importing-and-formatting-data" class="section level4">
+<h4>Step 1: Importing and formatting data</h4>
+<p>The first step to using any functions in <code>escapement</code> is to import and format data.</p>
 </div>
-<div id="creating-tables-and-plots" class="section level2">
-<h2>Creating tables and plots</h2>
+<div id="step-2-analysis-and-model-selection" class="section level4">
+<h4>Step 2: Analysis and model selection</h4>
 </div>
-<div id="producing-a-report" class="section level2">
-<h2>Producing a report</h2>
+<div id="step-3-creating-tables-and-plots" class="section level4">
+<h4>Step 3: Creating tables and plots</h4>
+</div>
+</div>
+<div id="the-all-in-one-approach-a-report" class="section level3">
+<h3>The “<em>all-in-one</em>” approach: a report</h3>
 </div>
 </div>
 
