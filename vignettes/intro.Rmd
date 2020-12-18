@@ -188,6 +188,9 @@ p$cumul_daily
 
 ##### plot_hourly()
 This function uses the salmon count data frame (from `import_format()`) and the model results from `model_escapement` to generate a `ggplot2` faceted plot showing average hourly estimates of salmon passage within a day, grouped by year.
+```{r, fig.height=4, fig.width=6.5}
+plot_hourly(dat, our_models)
+```
 
 
 ### The "*all-in-one*" approach: a report
