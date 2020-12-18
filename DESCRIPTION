@@ -1,7 +1,7 @@
 Package: escapement
 Type: Package
 Title: Analyze and Report on Salmon Abundances using Photo and Video Count Data
-Version: 0.0.0.9000
+Version: 1.0.0
 Author: McCrea Cobb <mccrea_cobb@fws.gov>
 Maintainer: McCrea Cobb <mccrea_cobb@fws.gov>
 Description: Functions for estimating salmon passage and abundance using photo and video counts.
