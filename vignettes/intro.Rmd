@@ -18,8 +18,10 @@ knitr::opts_chunk$set(
 library(escapement)
 ```
 
+
 ## What is `escapement`?
 `escapement` is an R package developed by the USFWS Alaska Inventory and Monitoring Program for estimating salmon escapement from photo and video double-observer count data. It was developed for estimating sockeye salmon minimum escapement for the Alalura River at Kodiak National Wildlife Refuge, Alaska. The functions follow methods published in [Deacy et al. 2016](https://peerj.com/articles/2120).
+
 
 ## What's required?
 The `escapement` package requires several programs to function:  
@@ -39,7 +41,8 @@ devtools::install_github("mccrea-cobb/escapement", ref = "master", build_vignett
 library(escapement)
 ```
 
-## What's inside?
+
+## What's inside?  
 The package includes functions to:  
 
 1. Import a raw CSV file containing hourly counts of salmon quantified from photos and videos (`import_format()`), 
@@ -50,12 +53,14 @@ The package includes functions to:
 
 4. Produce a dynamic parameterized report (PDF) of the results (`run_report()`). 
 
-## How do I use it?
-
-There are two general approaches to using `escapement` and selecting which approach to take depends on your needs. The first approach ("*step-wise*"), consists of using individual functions to work through the steps of importing and formatting input data, performing a statistical analysis, and creating tables and plots. This approach would be favored if the user is interested in examining the details of the analysis, would like to perform additional analyses not included in the package, or would like to export the tables and plots for a customized reporting format. The second approach ("*all in one*") performs all the above steps and compiles the results into a PDF report with `run_report()` function. This approach would be favored for annual reporting of results, specific to Kodiak Refuge's Akalura salmon escapement survey. Below are more details on the two approaches.
 
 ## Help!  
 To find a help file for any function in `escapement`, type `?` and the name of the function. For example, to get help on how to use the `import_format()` function, type `?import_format`. 
+
+
+## How do I use it?  
+There are two general approaches to using `escapement` and selecting which approach to take depends on your needs. The first approach ("*step-wise*"), consists of using individual functions to work through the steps of importing and formatting input data, performing a statistical analysis, and creating tables and plots. This approach would be favored if the user is interested in examining the details of the analysis, would like to perform additional analyses not included in the package, or would like to export the tables and plots for a customized reporting format. The second approach ("*all in one*") performs all the above steps and compiles the results into a PDF report with `run_report()` function. This approach would be favored for annual reporting of results, specific to Kodiak Refuge's Akalura salmon escapement survey. Below are more details on the two approaches.
+
 
 ### The "*stepwise*" approach
 
@@ -81,41 +86,136 @@ dat <- import_format(system.file("extdata", "salmon_counts.csv", package = "esca
 head(dat)
 ```
 
-#### Step 2: Analysis and model selection
-Once you have a formatted data frame of hourly photo and video counts (See Step 1 for how to import and format data), you can analyze the data using `escapement`. This is done using the `model_escapement()` function. Analyzing data in our `dat` data frame that we imported above would be done using:
+
+#### Step 2: Analysis and model selection  
+Once you have a formatted data frame of hourly photo and video counts (See Step 1 for how to import and format data), you can analyze the data using `escapement`. This is done using two functions: `model_escapement()` and `boot_escapement()` 
+
+##### model_escapement()  
+This function takes in a formatted data frame generated from `import_format()`, creates a list of candidate models, evaluates these models $\Delta$AICc, and returns a list of objects described in detail below. 
+
+Analyzing data in our `dat` data frame that we imported above would be done using:
 ```{r}
 our_models <- model_escapement(dat)
 ```
-Taking a look inside the resulting `our_models` list:
 
+Taking a look inside the resulting `our_models` list:
 ```{r}
 summary(our_models)
 ```
 
 From this you can see that the `model_escapement()` function requires an R data frame (returned from `import_format()`) and returns a list of three objects:
 
-1. `models` A list of candidate model outputs. The current version of `escapement` runs four candidate models: a linear, polynomial, linear segmented, and polynomial segmented model. Continuing with our example above, you can view a summary of a model by typing the name of the list returned by `model_escapement`, selecting the `models` element, and then selecting the name of the model. For example:
+- **models**  
+A list of candidate models. The current version of `escapement` runs four candidate models: a linear, polynomial, linear segmented, and polynomial segmented model. Continuing with our example above, you can view a summary of a model by typing the name of the list returned by `model_escapement`, selecting the `models` element, and then selecting the name of the model. For example:
 ```{r}
-our_models <- model_escapement(dat)
 summary(our_models$models$linear)
 ```
 
-
-2. `aic_table`
-
+- **aic_table**  
+The AICc table of the candidate model set. 
 ```{r}
 our_models$aic_table
 ```
 
-3. `top_model`
-
+- **top_model**  
+The most parsimonious model, based on $\Delta$AICc. 
 ```{r}
 our_models$top_model
 ```
 
 
-#### Step 3: Creating tables and plots
+##### boot_escapement()
+The `boot_escapement` function takes a data frame (produced from `import_format()` and a list of models (produced from `model_escapement()` and calculates 95% confidence intervals around the point estimates of salmon escapement estimates from the top model. Running this function returns a list containing two objects: a summary table of annual escapement estimates with 95% CIs (`summary`) and the raw bootstrapped results (`raw_boots`): 
+```{r, message=FALSE}
+boots <- boot_escapement(dat, our_models)
+summary(boots)
+```
+
+Here's the `summary` table from our example:
+```{r}
+boots$summary
+```
+
+You can explore the raw results by digging into `raw_boots`. This list contains how the bootstraps were called, the model specified, and a matrix with a row for each bootstrap replicate of the results. For more information, see the help file for the `boot` function in the `boot` package [here](https://cran.r-project.org/web/packages/boot/boot.pdf). 
+
+
+#### Step 3: Creating tables and plots  
+The third step in the step-wise approach is creating tables and plots of results. See above (**aic_table**) for a summary table of AICc results. Below is a brief description of the custom plotting functions in `escapement`.
+
+##### explore_plots()
+This function returns a list containing two `ggplot2` plots. The first (**photo_counts**) is series of line plot of the raw hourly photo counts over time, grouped by year. The second (**hourly_counts**) is a plot of the average photo counts for each hour of day summarized by year.
+
+```{r, fig.height=5, fig.width=6.5}
+p <- explore_plots(dat)
+p$photo_counts
+p$hourly_counts
+```
+
+##### plot_topmodel()
+This function uses the model results from `model_escapement` and returns a `ggplot2` scatter plot of video and photo counts with a fitted line from the top model.  
+
+```{r, fig.height=4, fig.width=6.5}
+plot_topmodel(our_models)
+```
+
+##### plot_boot_escapement()
+This function used the bootstrap results from `boot_estimates()` and returns a list of `ggplot2` plots: `density_estimates` and `min_escapement`. 
+
+The `density_estimates` plot is a density plot of the distribution of bootstrapped estimates of annual salmon escapement grouped by year:
+```{r, fig.height=4, fig.width=6.5}
+p <- plot_boot_escapement(boots)
+p$density_estimates
+```
+
+The `min_escape` plot shows minimum escapement point estimates and 95% CI bars, grouped by year:
+
+```{r, fig.height=4, fig.width=6.5}
+p$min_escape
+```
+
+##### plot_daily()
+This function uses the salmon count data frame (from `import_format()`) and the model results from `model_escapement` to generate a list of `ggplot2` plots (`daily` and `cumul_daily`).
+
+The `daily` plot shows estimates of daily salmon passage over time, grouped by year:
+```{r, fig.height=4, fig.width=6.5}
+p <- plot_daily(dat, our_models)
+p$daily
+```
+
+
+The `cumul_daily` plot shows estimates of cumulative daily salmon passage over time, grouped by year:
+```{r, fig.height=4, fig.width=6.5}
+p$cumul_daily
+```
+
+##### plot_hourly()
+This function uses the salmon count data frame (from `import_format()`) and the model results from `model_escapement` to generate a `ggplot2` faceted plot showing average hourly estimates of salmon passage within a day, grouped by year.
 
 
 ### The "*all-in-one*" approach: a report
+This is a function developed to generate a rmarkdown report that summarizes annual salmon escapement results. It relies on many of the above functions for importing, formatting, analyzing, performing model selection, and generating tables and figures. To run the function, simply run:
+```{r, eval=FALSE}
+run_report()
+```
 
+This will open a Shiny interface that looks like this:
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics(system.file("rmd/images", "report_interface.jpg", package = "escapement"))
+```
+
+If necessary, edit the default parameter values for the report title, subtitle, author, refuge, email, and phone number. 
+
+Then, under "Input dataset", browse to the location of the csv file containing your hourly photo and video count data (the csv should be formatted as required above for the `import_format` function). 
+
+Next, under "Discussion and Recommendations", browse to a txt file containing your discussion and recommendations section of the report. It is recommended to leave this input empty when you first run a report. After you have reviewed the results in initial report, then draft a discussion and recommendations section in MS Word. Save a copy of this Word document as a txt file and then rerun `run_report` with your discussion and recommendations included. 
+
+#### Adding new references to the discussion and recommendations sections
+If you have citations in your discussion and recommendations section that are not found elsewhere in the document, you will need to add these references to the bibliography. To do this, you will need to update the default bibtex file located in the `escapement` package. You can locate that file with the following command:
+```{r}
+system.file("rmd", "bibliography.bibtex", package = "escapement")
+```
+
+This default bibtex file can be edited manually using a text editor or using a bibliographic software package (e.g., EndNote). Once the new references have been added to the default bibtex file, replace the default bibtex file with the updated version. 
+
+You cite a reference in the body of the discussion and recommendation section by adding `[@reference_id]` to the end of the sentence, where reference_id is the reference ID listed at the top of each bibtex record. For example, to cite Deacy et. al 2016, you would add the record ID for that article (deacy_etal_2016) into the body of the text  (e.g.,"We following established methods `[@deacy_etal_2016]`."). When the bibtex file is updated, this approach to inline citations will automatically add the citation to the bibliography section.

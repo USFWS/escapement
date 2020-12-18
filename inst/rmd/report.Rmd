@@ -41,11 +41,11 @@ params:
     value: 907-539-1669
     input: text
   input_data:
-    label: "Input dataset (csv):"
+    label: "Input dataset (*required* csv file):"
     value:
     input: file
   discussion_recommendations:
-    label: "Discussion and Recommendations (txt):"
+    label: "Discussion and Recommendations (*optional* txt file):"
     value: 
     input: file
 ---
