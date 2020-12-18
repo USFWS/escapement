@@ -199,7 +199,7 @@ run_report()
 This will open a Shiny interface that looks like this:
 
 ```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics(system.file("rmd/images", "report_interface.jpg", package = "escapement"))
+knitr::include_graphics("../inst/rmd/images/report_interface.jpg")
 ```
 
 If necessary, edit the default parameter values for the report title, subtitle, author, refuge, email, and phone number. 

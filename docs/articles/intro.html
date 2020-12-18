@@ -243,10 +243,10 @@ The most parsimonious model, based on <span class="math inline">\(\Delta\)</span
 <p>The <code>boot_escapement</code> function takes a data frame (produced from <code><a href="../reference/import_format.html">import_format()</a></code> and a list of models (produced from <code><a href="../reference/model_escapement.html">model_escapement()</a></code> and calculates 95% confidence intervals around the point estimates of salmon escapement estimates from the top model. Running this function returns a list containing two objects: a summary table of annual escapement estimates with 95% CIs (<code>summary</code>) and the raw bootstrapped results (<code>raw_boots</code>):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">boots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/boot_escapement.html">boot_escapement</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">our_models</span><span class="op">)</span>
-<span class="co">#&gt; Total time: 5.78 sec elapsed</span>
-<span class="co">#&gt; Total time: 5.42 sec elapsed</span>
-<span class="co">#&gt; Total time: 5.52 sec elapsed</span>
-<span class="co">#&gt; Total time: 5.65 sec elapsed</span>
+<span class="co">#&gt; Total time: 5.64 sec elapsed</span>
+<span class="co">#&gt; Total time: 5.57 sec elapsed</span>
+<span class="co">#&gt; Total time: 5.29 sec elapsed</span>
+<span class="co">#&gt; Total time: 5.19 sec elapsed</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">boots</span><span class="op">)</span>
 <span class="co">#&gt;           Length Class      Mode</span>
 <span class="co">#&gt; summary   4      data.frame list</span>
@@ -328,7 +328,7 @@ The most parsimonious model, based on <span class="math inline">\(\Delta\)</span
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/run_report.html">run_report</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>This will open a Shiny interface that looks like this:</p>
-<p><img src="../../../../../Documents/R/win-library/4.0/escapement/rmd/images/report_interface.jpg" width="100%"></p>
+<p><img src="../inst/rmd/images/report_interface.jpg" width="100%"></p>
 <p>If necessary, edit the default parameter values for the report title, subtitle, author, refuge, email, and phone number.</p>
 <p>Then, under “Input dataset”, browse to the location of the csv file containing your hourly photo and video count data (the csv should be formatted as required above for the <code>import_format</code> function).</p>
 <p>Next, under “Discussion and Recommendations”, browse to a txt file containing your discussion and recommendations section of the report. It is recommended to leave this input empty when you first run a report. After you have reviewed the results in initial report, then draft a discussion and recommendations section in MS Word. Save a copy of this Word document as a txt file and then rerun <code>run_report</code> with your discussion and recommendations included.</p>

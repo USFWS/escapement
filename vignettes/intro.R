@@ -63,7 +63,7 @@ p$cumul_daily
 #  run_report()
 
 ## ---- echo=FALSE, out.width="100%"--------------------------------------------
-knitr::include_graphics(system.file("rmd/images", "report_interface.jpg", package = "escapement"))
+knitr::include_graphics("../inst/rmd/images/report_interface.jpg")
 
 ## -----------------------------------------------------------------------------
 system.file("rmd", "bibliography.bibtex", package = "escapement")
