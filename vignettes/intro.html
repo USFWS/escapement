@@ -10,11 +10,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="author" content="McCrea Cobb" />
 
-<meta name="date" content="2020-12-17" />
 
-<title>Introduction to escapement</title>
+<title>Getting Started</title>
 
 <script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
 // v0.0.1
@@ -365,9 +363,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Introduction to <code>escapement</code></h1>
-<h4 class="author">McCrea Cobb</h4>
-<h4 class="date">2020-12-17</h4>
+<h1 class="title toc-ignore">Getting Started</h1>
 
 
 
@@ -503,10 +499,10 @@ The most parsimonious model, based on <span class="math inline">\(\Delta\)</span
 <h5>boot_escapement()</h5>
 <p>The <code>boot_escapement</code> function takes a data frame (produced from <code>import_format()</code> and a list of models (produced from <code>model_escapement()</code> and calculates 95% confidence intervals around the point estimates of salmon escapement estimates from the top model. Running this function returns a list containing two objects: a summary table of annual escapement estimates with 95% CIs (<code>summary</code>) and the raw bootstrapped results (<code>raw_boots</code>):</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>boots &lt;-<span class="st"> </span><span class="kw">boot_escapement</span>(dat, our_models)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; Total time: 5.19 sec elapsed</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; Total time: 5.16 sec elapsed</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt; Total time: 4.9 sec elapsed</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; Total time: 4.91 sec elapsed</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; Total time: 5.55 sec elapsed</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; Total time: 5.63 sec elapsed</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt; Total time: 5.14 sec elapsed</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; Total time: 5.32 sec elapsed</span></span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="kw">summary</span>(boots)</span>
 <span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt;           Length Class      Mode</span></span>
 <span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; summary   4      data.frame list</span></span>

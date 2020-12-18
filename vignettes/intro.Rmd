@@ -1,10 +1,8 @@
 ---
-title: "Introduction to `escapement`"
-author: "McCrea Cobb"
-date: "`r Sys.Date()`"
+title: "Getting Started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
