@@ -18,7 +18,7 @@ The `escapement` package requires several programs to function:
 
 To install and load the escapement R package:  
 `if (!require("devtools")) install.packages("devtools")`  
-`devtools::install_github("mccrea-cobb/escapement", ref = "master", build_vignettes = TRUE)`  
+`devtools::install_github("USFWS/escapement", ref = "master", build_vignettes = TRUE)`  
 `library(escapement)`  
 
 To learn more about the escapement package, read introductory vignette:
