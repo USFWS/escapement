@@ -209,7 +209,7 @@ If necessary, edit the default parameter values for the report title, subtitle, 
 
 Then, under "Input dataset", browse to the location of the csv file containing your hourly photo and video count data (the csv should be formatted as required above for the `import_format` function). 
 
-Next, under "Discussion and Recommendations", browse to a txt file containing your discussion and recommendations section of the report. It is recommended to leave this input empty when you first run a report. After you have reviewed the results in initial report, then draft a discussion and recommendations section in MS Word. Save a copy of this Word document as a txt file and then rerun `run_report` with your discussion and recommendations included. 
+Next, under "Discussion and Recommendations", browse to a txt file containing your discussion and recommendations section of the report. It is recommended to leave this input empty when you first run a report. After you have reviewed the results in initial report, then draft a discussion and recommendations section in MS Word. Save a copy of this Word document as a txt file. NOTE: do this by opening a new txt file, copying the text from your Word document into this txt file, and saving it. You then rerun `run_report` with your discussion and recommendations included. 
 
 #### Adding new references to the discussion and recommendations sections
 If you have citations in your discussion and recommendations section that are not found elsewhere in the document, you will need to add these references to the bibliography. To do this, you will need to update the default bibtex file located in the `escapement` package. You can locate that file with the following command:

@@ -208,7 +208,7 @@ p[["daily"]]
 plot_topmodel(models)
 ```
 
-```{r cumul_daily-plot, echo=FALSE, fig.cap="Video and time-lapse camera salmon counts, Akalura River, Kodiak, Alaska. The line shows the fit of the top model."}
+```{r cumul-daily-plot, echo=FALSE, fig.cap="Video and time-lapse camera salmon counts, Akalura River, Kodiak, Alaska. The line shows the fit of the top model."}
 p <- plot_daily(dat, models)
 p[["cumul_daily"]]
 ```
