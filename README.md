@@ -27,4 +27,4 @@ To learn more about the escapement package, read introductory vignette:
 `vignette(topic = "intro", package = "escapement")`
 
 To create a report:  
-`run_report()`
+`run_report()` 
