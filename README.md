@@ -1,5 +1,4 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.com/USFWS/escapement.png)](https://travis-ci.com/USFWS/escapement)
 
 # escapement
 An R package that includes functions for estimating salmon passage and abundances using photo and video count data based on [Deacy et al. 2016](https://peerj.com/articles/2120)., functions for summarizing and plotting results, and the ability to generate a parameterized [rmarkdown](https://rmarkdown.rstudio.com/) report.  
