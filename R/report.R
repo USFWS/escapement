@@ -35,5 +35,4 @@ run_report <- function(outformat = bookdown::pdf_document2(),
                     output_dir = outdir,
                     params = parameters,
                     ...)
-  # browseURL(file.path(paste0(outdir, "/", outfile, filetype)))  # open the report
-}
+  }
