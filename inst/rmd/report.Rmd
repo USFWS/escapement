@@ -167,7 +167,7 @@ models$top_model %>%
                booktabs = TRUE)
 ```
 
-Using the most parsimonious model,  Escapement in `r boots$summary[nrow(boots$summary)-1, "year"]` was `r round(boots$summary[nrow(boots$summary)-1, "escapement"], 0)` salmon (Table \@ref(tab:summary-table)).
+Using the most parsimonious model, we estimated escapement in `r boots$summary[nrow(boots$summary)-1, "year"]` was `r round(boots$summary[nrow(boots$summary)-1, "escapement"], 0)` salmon (Table \@ref(tab:summary-table)).
 
 ```{r boot-plot, echo=FALSE, fig.cap="Mean minimum escapement estimates for Akalura River, Kodiak Island, Alaska. Error bars represent 95% CIs."}
 p.boots <- plot_boot_escapement(boots)
@@ -224,7 +224,7 @@ p[["cumul_daily"]]
 
 # Acknowledgements {-}
 
-The work conducted and analyses of the date in this report are the results of previous work conducted by Kodiak National Wildlife Refuge volunteers and employees.  We would like to thank McCrea Cobb for his input into the analysis of the data.  We would also like to thank those individuals who helped in the construction and maintenance of the camera system: Daniel Hernandez, ANSEP participants and FWS volunteers. We would also like to thank the numerous individuals within the Kodiak Refuge office for their support and dedication to this project, these include Mike Brady, Cinda Childers, and Tevis Underwood.
+The work conducted and analyses of the date in this report are the results of previous work conducted by Kodiak National Wildlife Refuge volunteers and employees.  We would like to thank McCrea Cobb for his input into the analysis of the data.  We would also like to thank those individuals who helped in the construction and maintenance of the camera system: Daniel Hernandez, ANSEP participants and FWS volunteers. We would also like to thank the numerous individuals within the Kodiak Refuge office for their support and dedication to this project, including Mike Brady, Cinda Childers, and Tevis Underwood.
 
 \newpage
 

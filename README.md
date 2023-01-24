@@ -16,7 +16,7 @@ The `escapement` package requires several programs to function:
 
 3. the `tinyTex` R package. To install it from R:  
       a. `if (!require("devtools")) install.packages("devtools")`  
-      c. `tinytex::install_tinytex()`
+      b. `tinytex::install_tinytex()`
 
 To install and load the escapement R package:  
 `if (!require("devtools")) install.packages("devtools")`  
