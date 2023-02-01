@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">escapement</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -72,30 +68,35 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="escapement" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#escapement" class="anchor"></a>escapement</h1></div>
-<p>An R package that includes functions for estimating salmon passage and abundances using photo and video count data based on <a href="https://peerj.com/articles/2120">Deacy et al. 2016</a>., functions for summarizing and plotting results, and the ability to generate a parameterized <a href="https://rmarkdown.rstudio.com/">rmarkdown</a> report.</p>
+
+<div class="section level1">
+<div class="page-header"><h1 id="escapement">escapement<a class="anchor" aria-label="anchor" href="#escapement"></a>
+</h1></div>
+<p>An R package that includes functions for estimating salmon passage and abundances using photo and video count data based on <a href="https://peerj.com/articles/2120" class="external-link">Deacy et al. 2016</a>., functions for summarizing and plotting results, and the ability to generate a parameterized <a href="https://rmarkdown.rstudio.com/" class="external-link">rmarkdown</a> report.</p>
 </div>
-<div id="usfws-disclaimer" class="section level1">
-<h1 class="hasAnchor">
-<a href="#usfws-disclaimer" class="anchor"></a>USFWS Disclaimer</h1>
+<div class="section level1">
+<h1 id="usfws-disclaimer">USFWS Disclaimer<a class="anchor" aria-label="anchor" href="#usfws-disclaimer"></a>
+</h1>
 <p>The United States Fish and Wildlife Service (FWS) GitHub project code is provided on an “as is” basis and the user assumes responsibility for its use. FWS has relinquished control of the information and no longer has responsibility to protect the integrity, confidentiality, or availability of the information. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by FWS. The FWS seal and logo shall not be used in any manner to imply endorsement of any commercial product or activity by FWS or the United States Government.</p>
 </div>
-<div id="instructions" class="section level1">
-<h1 class="hasAnchor">
-<a href="#instructions" class="anchor"></a>Instructions</h1>
+<div class="section level1">
+<h1 id="instructions">Instructions<a class="anchor" aria-label="anchor" href="#instructions"></a>
+</h1>
 <p>The <code>escapement</code> package requires several programs to function:</p>
-<ol>
-<li><p><a href="https://cloud.r-project.org/">R</a> (&gt;=4.0)</p></li>
-<li><p><a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools 40</a></p></li>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://cloud.r-project.org/" class="external-link">R</a> (&gt;=4.0)</p></li>
+<li><p><a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools 40</a></p></li>
 <li>
 <p>the <code>tinyTex</code> R package. To install it from R:</p>
-<p>a. <code>if (!require("devtools")) install.packages("devtools")</code></p>
-<p>c. <code><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html">tinytex::install_tinytex()</a></code></p>
+<ol style="list-style-type: lower-alpha">
+<li>
+<code>if (!require("devtools")) install.packages("devtools")</code><br>
+</li>
+<li><code><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html" class="external-link">tinytex::install_tinytex()</a></code></li>
+</ol>
 </li>
 </ol>
-<p>To install and load the escapement R package:<br><code>if (!require("devtools")) install.packages("devtools")</code><br><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("USFWS/escapement", ref = "master", build_vignettes = TRUE)</a></code><br><code><a href="https://rdrr.io/r/base/library.html">library(escapement)</a></code></p>
+<p>To install and load the escapement R package:<br><code>if (!require("devtools")) install.packages("devtools")</code><br><code>devtools::install_github("USFWS/escapement", ref = "master", build_vignettes = TRUE)</code><br><code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(escapement)</a></code></p>
 <p>To learn more about the escapement package, read introductory vignette: <code><a href="articles/intro.html">vignette(topic = "intro", package = "escapement")</a></code></p>
 <p>To create a report:<br><code><a href="reference/run_report.html">run_report()</a></code></p>
 </div>
@@ -104,15 +105,31 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>CC0</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing escapement</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>McCrea Cobb <br><small class="roles"> Maintainer </small>  </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
 </ul>
 </div>
 
@@ -121,11 +138,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by McCrea Cobb.</p>
+  <p></p>
+<p>Developed by McCrea Cobb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -133,6 +152,8 @@
 
   
 
+
+  
 
   </body>
 </html>
