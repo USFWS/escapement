@@ -15,7 +15,7 @@ The `escapement` package requires several programs to function:
 2. [Rtools 40](https://cran.r-project.org/bin/windows/Rtools/)  
 
 3. the `tinyTex` R package. To install it from R:  
-      a. `if (!require("devtools")) install.packages("devtools")`  
+      a. `if (!require("tinytex")) install.packages("tinytex")`  
       b. `tinytex::install_tinytex()`
 
 To install and load the escapement R package:  
