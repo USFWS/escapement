@@ -1,12 +1,12 @@
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
 # escapement
+
+## Overview
+
 An R package that includes functions for estimating salmon passage and abundances using photo and video count data based on [Deacy et al. 2016](https://peerj.com/articles/2120)., functions for summarizing and plotting results, and the ability to generate a parameterized [rmarkdown](https://rmarkdown.rstudio.com/) report.  
 
-# USFWS Disclaimer
-The United States Fish and Wildlife Service (FWS) GitHub project code is provided on an "as is" basis and the user assumes responsibility for its use. FWS has relinquished control of the information and no longer has responsibility to protect the integrity, confidentiality, or availability of the information. Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by FWS. The FWS seal and logo shall not be used in any manner to imply endorsement of any commercial product or activity by FWS or the United States Government.
-
-# Instructions
+## Installation
 
 The `escapement` package requires several programs to function:  
 
@@ -23,8 +23,14 @@ To install and load the escapement R package:
 `devtools::install_github("USFWS/escapement", ref = "master", build_vignettes = TRUE)`  
 `library(escapement)`  
 
-To learn more about the escapement package, read introductory vignette:
-`vignette(topic = "intro", package = "escapement")`
+## Usage
 
-To create a report:  
-`run_report()` 
+To get started using `escapement`, read the [Getting Started](https://usfws.github.io/escapement/articles/intro.html) article in the [GitHub page](https://usfws.github.io/escapement/index.html).  
+
+## Getting help
+
+You can view a help file in R for each function with `?{function-name}. Contact the project maintainer for additional help with this R package. 
+
+## Contribute
+
+Contact the project maintainer for information about contributing to this repository template. Submit a [GitHub Issue](https://github.com/USFWS/r7-repo-template/issues) to report a bug or request a feature or enhancement.
