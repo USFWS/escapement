@@ -1,6 +1,8 @@
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/USFWS/escapement/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USFWS/escapement/actions/workflows/R-CMD-check.yaml)
 
-# escapement
+escapement
+==========
 
 ## Overview
 
@@ -34,3 +36,9 @@ You can view a help file in R for each function with `?{function-name}. Contact 
 ## Contribute
 
 Contact the project maintainer for information about contributing to this repository template. Submit a [GitHub Issue](https://github.com/USFWS/r7-repo-template/issues) to report a bug or request a feature or enhancement.
+
+-----
+
+![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is
+licensed under a [Creative Commons Attribution 1.0 International
+License](https://creativecommons.org/licenses/by/1.0/).
