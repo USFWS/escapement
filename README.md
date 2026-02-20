@@ -20,10 +20,13 @@ The `escapement` package requires several programs to function:
       a. `if (!require("tinytex")) install.packages("tinytex")`  
       b. `tinytex::install_tinytex()`
 
-To install and load the escapement R package:  
-`if (!require("devtools")) install.packages("devtools")`  
-`devtools::install_github("USFWS/escapement", ref = "master", build_vignettes = TRUE)`  
-`library(escapement)`  
+To install and load the escapement R package:
+
+```
+if (!require("pak")) install.packages("pak")
+pak::pkg_install("USFWS/escapement") 
+library(escapement)
+```
 
 ## Usage
 
