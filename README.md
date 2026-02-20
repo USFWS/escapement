@@ -14,7 +14,7 @@ The `escapement` package requires several programs to function:
 
 1. [R](https://cloud.r-project.org/) (>=4.0)  
 
-2. [Rtools 40](https://cran.r-project.org/bin/windows/Rtools/)  
+2. [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (>=40)
 
 3. the `tinyTex` R package. To install it from R:  
       a. `if (!require("tinytex")) install.packages("tinytex")`  

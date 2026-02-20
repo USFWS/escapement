@@ -26,16 +26,16 @@ The `escapement` package requires several programs to function:
 
 1. [R](https://cloud.r-project.org/) (>=4.0)
 
-2. [Rtools 40](https://cran.r-project.org/bin/windows/Rtools/)
+2. [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (>=40)
 
-3. the `tinytex` package. To install it from R:  
+3. `tinytex` package. To install it from R:  
       a. `if (!require("tinytex")) install.packages("tinytex")`  
       b. `tinytex::install_tinytex()`  
 
 To install and load the package:  
 ```{r, echo=TRUE, eval=FALSE}
-if (!require("devtools")) install.packages("devtools")
-devtools::install_github("USFWS/escapement", ref = "master", build_vignettes = TRUE)
+if (!require("pak")) install.packages("pak")
+pak::pkg_install("USFWS/escapement")
 library(escapement)
 ```
 
